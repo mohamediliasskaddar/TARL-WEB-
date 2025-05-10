@@ -1,4 +1,4 @@
-body {
+/* body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #f7f9fc;
     margin: 0;
@@ -67,4 +67,172 @@ body {
     color: #d32f2f;
     font-weight: 500;
     text-align: center;
+  } */
+   .auth-container {
+  /* max-width: 450px; */
+  margin: 2.5rem auto;
+  margin-top: 75px;
+  padding: 2.5rem;
+  background: linear-gradient(145deg, #ffffff, #f5f5f5);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  max-width: 550px;
+  padding: 2rem;
+  
+}
+
+@media (max-width: 500px) {
+  .auth-container {
+    margin: 1.5rem auto;
+    padding: 1.5rem;
   }
+}
+
+/* Heading */
+h2 {
+  color: #121212;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  text-align: center;
+  letter-spacing: -0.5px;
+  position: relative;
+}
+
+h2:after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(to right, #333333, #888888);
+  border-radius: 3px;
+}
+
+/* Form styling */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Label styling */
+label {
+  color: #333333;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+/* Input styling */
+input {
+  padding: 0.85rem 1rem;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 1.25rem;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  color: #121212;
+}
+
+input:focus {
+  outline: none;
+  border-color: #333333;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+input::placeholder {
+  color: #888888;
+}
+
+/* Button styling */
+button {
+  background: linear-gradient(to right, #333333, #121212);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.75rem;
+}
+
+button:hover:not([disabled]) {
+  background: linear-gradient(to right, #121212, #333333);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button[disabled] {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Error message */
+.error {
+  color: #e53935;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: rgba(229, 57, 53, 0.08);
+  border-radius: 6px;
+  text-align: center;
+  border-left: 3px solid #e53935;
+}
+
+/* Link to login */
+.auth-link {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.auth-link a {
+  color: #333333;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.auth-link a:hover {
+  color: #121212;
+  text-decoration: underline;
+}
+
+/* Optional: add a subtle background pattern to the page */
+body {
+  background-color: #f5f5f5;
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Two-column layout for first name and last name on larger screens */
+@media (min-width: 500px) {
+  .name-row {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .name-row .form-group {
+    flex: 1;
+  }
+}
+.register-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('../../assets/images/back.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  position: relative;
+}

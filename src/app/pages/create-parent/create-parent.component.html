@@ -1,8 +1,13 @@
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+
 <div class="parent-form-container">
     <h2>Create Parent Account</h2>
   
     <div class="form-card">
-      <h3>👤 Parent Details</h3>
+      <h3>
+        <span class="material-symbols-outlined">supervisor_account</span>
+         Parent Details</h3>
       <div class="form-group">
         <label>First Name:</label>
         <input type="text" [(ngModel)]="parentFirstName" (ngModelChange)="generateUsername()" placeholder="Enter Parent's First Name" required />
@@ -22,7 +27,7 @@
     </div>
   
     <div class="form-card">
-      <h3>👨‍👧 Link Children</h3>
+      <h3><span class="material-symbols-outlined">escalator_warning</span> Link Children</h3>
       <div class="form-group">
         <label>Select Child:</label>
         <select [(ngModel)]="selectedChildId">
@@ -30,7 +35,9 @@
             {{ student.firstName }} {{ student.lastName }}
           </option>
         </select>
-        <button type="button" (click)="linkChild()" class="link-btn">➕ Link Child</button>
+        <button type="button" (click)="linkChild()" class="link-btn"><span class="material-symbols-outlined">
+supervised_user_circle
+</span> Link Child</button>
       </div>
   
       <div *ngIf="linkedChildren.length > 0" class="linked-children">
@@ -45,8 +52,13 @@
     </div>
   
     <div class="form-actions">
-      <button class="submit-btn" (click)="createParentAccount()">✅ Create Parent Account</button>
-      <button class="reset-btn" (click)="resetForm()">🔄 Reset Form</button>
+      <button class="submit-btn" (click)="createParentAccount()"> 
+        <span class="material-symbols-outlined">how_to_reg</span> 
+        Create Parent Account
+      </button>
+      <button class="reset-btn" (click)="resetForm()"><span class="material-symbols-outlined">
+redo
+</span> Reset Form</button>
     </div>
   </div>
   

@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrl: './student-details.component.css'
 })
 export class StudentDetailsComponent {
+  //display the student informations 
 
 }

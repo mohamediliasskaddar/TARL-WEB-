@@ -1,4 +1,4 @@
-table {
+/* table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 16px;
@@ -22,4 +22,88 @@ table {
     border-radius: 4px;
     cursor: pointer;
   }
-  
+   */
+   .student-list {
+  max-width: 1500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  /* background: linear-gradient(145deg, #ffffff, #f5f5f5); */
+  border-radius: 12px;
+  /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); */
+  /* border: 1px solid rgba(0, 0, 0, 0.05); */
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Title */
+.student-list h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #121212;
+  position: relative;
+}
+
+.student-list h2::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(to right, #333333, #888888);
+  margin: 0.5rem auto 0;
+  border-radius: 3px;
+}
+
+/* Loading / empty messages */
+.student-list div {
+  text-align: center;
+  font-size: 1rem;
+  color: #555;
+  margin: 1rem 0;
+}
+
+/* Table styling */
+.student-list table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+.student-list th,
+.student-list td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+  color: #121212;
+}
+
+.student-list th {
+  background-color: #f0f0f0;
+  font-weight: 600;
+  color: #333;
+}
+
+.student-list tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.student-list tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* Button */
+.student-list button {
+  background: linear-gradient(to right, #333333, #121212);
+  color: #ffffff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.student-list button:hover {
+  background: linear-gradient(to right, #121212, #333333);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}

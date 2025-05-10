@@ -1,4 +1,4 @@
-body {
+/* body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #f7f9fc;
     margin: 0;
@@ -67,4 +67,172 @@ body {
     color: #d32f2f;
     font-weight: 500;
     text-align: center;
-  }
+  } */
+   .login-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5; /*SECOURS IMG*/
+  background-image: url('../../assets/images/back.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  position: relative;
+}
+.logo-img {
+  position: absolute;
+  top: 40px; /* distance depuis le haut */
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 10;
+}
+
+.logo-img img {
+  width: 120px; /* ajuste selon ton design */
+  height: auto;/*AUTO*/
+}
+/* 2. Conteneur du formulaire */
+.auth-container {
+  width: 100%;
+  max-width: 450px;
+  padding: 2rem;
+  background-color: rgba(255,255,255,0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  text-align: center;
+  margin-top: 140px;
+}
+
+
+/* Logo/Brand styling */
+.brand-logo {
+  margin-bottom: 2rem;
+}
+
+.brand-logo h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #121212;
+  margin: 0;
+  text-transform: uppercase;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Form styling */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Label styling */
+label {
+  display: block;
+  text-align: left;
+  color: #333333;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+/* Input styling */
+input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  color: #121212;
+  box-sizing: border-box;
+}
+
+input:focus {
+  outline: none;
+  border-color: #333333;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+input::placeholder {
+  color: #888888;
+}
+
+/* Forgot password link */
+.forgot-password {
+  text-align: right;
+  margin-top: 0.5rem;
+}
+
+.forgot-password a {
+  color: #333333;
+  font-size: 0.85rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.forgot-password a:hover {
+  color: #000000;
+  text-decoration: underline;
+}
+
+/* Button styling */
+button {
+  width: 100%;
+  background-color: #121212;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.85rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+button:hover:not([disabled]) {
+  background-color: #333333;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button[disabled] {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Error message */
+.error {
+  color: #e53935;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: rgba(229, 57, 53, 0.08);
+  border-radius: 6px;
+  text-align: center;
+  border-left: 3px solid #e53935;
+}
+
+/* Link to register */
+.auth-link {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.auth-link a {
+  color: #333333;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.auth-link a:hover {
+  color: #121212;
+  text-decoration: underline;
+}

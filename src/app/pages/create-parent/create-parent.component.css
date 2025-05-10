@@ -1,4 +1,4 @@
-.parent-form-container {
+/* .parent-form-container {
     max-width: 500px;
     margin: 0 auto;
     padding: 16px;
@@ -127,4 +127,177 @@
   .link-btn:hover {
     background-color: #388e3c;
   }
-  
+   */
+   /* Base container */
+.parent-form-container {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 12px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #121212;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.parent-form-container h2::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(to right, #333333, #888888);
+  margin: 0.5rem auto 0;
+  border-radius: 3px;
+}
+/* Headings */
+.parent-form-container h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #121212;
+}
+
+/* Section cards */
+.form-card {
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid #e0e0e0;
+}
+
+.form-card h3 {
+  display: flex;
+  align-items: center;
+  font-size: 1.3rem;
+  margin-bottom: 1.2rem;
+  color: #333;
+}
+
+.form-card h3 .material-symbols-outlined {
+  font-size: 1.5rem;
+  margin-right: 8px;
+  color: #121212;
+}
+
+/* Form groups */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.form-group input,
+.form-group select {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  background-color: #fff;
+  color: #121212;
+}
+
+/* Button styling */
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.link-btn {
+  background-color: #333;
+  color: #fff;
+  margin:0 30%;
+  margin-top: 0.75rem; 
+  max-width: 40%;
+}
+
+.link-btn:hover {
+  background-color: #000;
+}
+
+.remove-btn {
+  background-color: #aaa;
+  color: #fff;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.8rem;
+  margin-left: 8px;
+  border-radius: 4px;
+}
+
+.remove-btn:hover {
+  background-color: #888;
+}
+
+/* Linked children section */
+.linked-children h4 {
+  font-size: 1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.linked-children ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.linked-children li {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 0.6rem;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #121212;
+}
+
+/* Action buttons */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.submit-btn {
+  background-color: #121212;
+  color: #fff;
+}
+
+.submit-btn:hover {
+  background-color: #000;
+}
+
+.reset-btn {
+  background-color: #ccc;
+  color: #000;
+}
+
+.reset-btn:hover {
+  background-color: #bbb;
+}
+
+/* Responsive (optional) */
+@media (max-width: 600px) {
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

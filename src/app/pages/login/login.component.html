@@ -1,4 +1,4 @@
-<div class="register-container">
+<!-- <div class="register-container">
     <h2>Welcome Back</h2>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <label>Email</label>
@@ -17,4 +17,44 @@
       <a routerLink="/register" style="color: #3f51b5; text-decoration: none;">Don't have an account? Register here</a>
     </div>    
   </div>
+   -->
+  <div class="login-page">
   
+  <div class="logo-img" style="background-image: url('../../../assets/images/lg.png'); width: 300px; height: 200px; background-size: contain; background-repeat: no-repeat; background-position: center;">
+</div>
+<!-- <div class="logo-img">
+    <img src="assets/images/lg.png" alt="illustrations"> 
+  </div>  -->
+  <div class="auth-container">
+    
+    <div class="brand-logo">
+      <h1>MATHORIA</h1>
+    </div>
+    
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" formControlName="email" placeholder="you@example.com">
+      </div>
+      
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" formControlName="password" placeholder="••••••••">
+        <div class="forgot-password">
+          <a (click)="resetPassword()">Forgot your password?</a>
+        </div>
+      </div>
+      
+      <button type="submit" [disabled]="loading">
+        <span *ngIf="!loading">Log In</span>
+        <span *ngIf="loading">Logging in...</span>
+      </button>
+      
+      <p *ngIf="errorMessage" class="error">⚠ {{ errorMessage }}</p>
+    </form>
+    
+    <div class="auth-link">
+      <span>Don't have an account? <a routerLink="/register">Register here</a></span>
+    </div>
+  </div>
+</div>

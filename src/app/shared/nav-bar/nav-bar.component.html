@@ -1,10 +1,15 @@
+<!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=manage_accounts" /> -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 <nav class="navbar">
-    <div class="navbar-left">Mathoria</div>
+    <div class="navbar-left"> MATHORIA</div>
   
     <div class="navbar-right">
-      <button class="gear-button" (click)="toggleMenu()">⚙</button>
+      <button class="gear-button" (click)="toggleMenu()">
+      <span class="material-symbols-outlined">manage_accounts</span>
+      </button>
       <div class="dropdown" *ngIf="menuOpen">
-        <button (click)="logout()">Log Out</button>
+        <button (click)="logout()"> Log Out</button>
       </div>
     </div>
   </nav>

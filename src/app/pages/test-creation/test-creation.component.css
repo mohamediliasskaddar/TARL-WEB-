@@ -1,4 +1,4 @@
-form {
+/* form {
     max-width: 800px;
     margin: 0 auto;
     padding: 24px;
@@ -72,4 +72,112 @@ form {
   button[type="submit"]:hover {
     background-color: #2c3e90;
   }
-  
+   */
+   form {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: linear-gradient(145deg, #ffffff, #f5f5f5);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Heading */
+h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #121212;
+  position: relative;
+}
+
+h2::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(to right, #333333, #888888);
+  margin: 0.5rem auto 0;
+  border-radius: 3px;
+}
+
+/* Labels */
+label {
+  display: block;
+  font-weight: 500;
+  font-size: 0.95rem;
+  margin: 0.75rem 0 0.25rem;
+  color: #333;
+}
+
+/* Inputs & Selects */
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #fff;
+  color: #121212;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #333;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+}
+
+/* HR line */
+hr {
+  margin: 2rem 0;
+  border: none;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* Checkbox label */
+input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+div[formGroupName="miniGameConfigs"] {
+  background-color: #fafafa;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+div[formGroupName="miniGameConfigs"] h4 {
+  font-size: 1.1rem;
+  color: #121212;
+  margin: 1.5rem 0 0.75rem;
+  border-left: 3px solid #888;
+  padding-left: 0.5rem;
+}
+
+/* Submit button */
+button[type="submit"] {
+  width: 100%;
+  margin-top: 2rem;
+  background: linear-gradient(to right, #333333, #121212);
+  color: #fff;
+  padding: 0.9rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background: linear-gradient(to right, #121212, #333333);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}

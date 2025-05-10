@@ -28,7 +28,15 @@ export class RegisterComponent {
   }
 
   onSubmit() {
-    if (this.registerForm.invalid) return;
+    // if (this.registerForm.invalid) return;
+    //debug
+    console.log("Register button clicked");
+
+    // if (this.registerForm.invalid) return;
+    if (this.registerForm.invalid){
+    console.log("Register form error");
+    alert("registration form is invalid, review your info ");
+    return;} 
 
     this.loading = true;
     const { email, password, ...profile } = this.registerForm.value;

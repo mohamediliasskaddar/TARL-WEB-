@@ -1,3 +1,4 @@
+<div class="role-manageement">
 <h2>Role Management</h2>
 
 <div *ngIf="loading">Loading users...</div>
@@ -12,7 +13,7 @@
     Show Pending Only
   </label>
 
-  <div *ngIf="filteredUsers.length === 0" style="margin-top: 12px;">No users found.</div>
+  <div *ngIf="filteredUsers.length === 0" class="empty-message" style="margin-top: 12px;">No users found.</div>
 
   <table *ngIf="filteredUsers.length > 0" class="user-table">
     <thead>
@@ -79,4 +80,5 @@
       </tr>
     </tbody>
   </table>
+  </div>
 </div>

@@ -1,4 +1,4 @@
-.student-form {
+/* .student-form {
     display: flex;
     flex-direction: column;
     max-width: 400px;
@@ -31,4 +31,134 @@
   .error {
     color: red;
   }
-  
+   */
+
+.student-registration {
+  min-height: 100vh;           /* Fill screen height */
+  display: flex;
+  flex-direction: column;      /* Ensure vertical stacking inside */
+  justify-content: center;     /* Center vertically */
+  align-items: center;         /* Center horizontally */
+  /* padding: 0rem; */
+  background-color: #f5f5f5;
+  /* background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+  background-size: 20px 20px; */
+
+  /* Existing styles */
+  background: linear-gradient(145deg, #ffffff, #f5f5f5);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  max-width: 700px;
+  margin: 2rem auto;
+}
+
+
+.student-registration h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  color: #121212;
+}
+
+.student-registration h2::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(to right, #333333, #888888);
+  border-radius: 3px;
+}
+
+.student-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.name-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: #333;
+}
+
+input, select {
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  font-size: 1rem;
+  color: #121212;
+  background: #fff;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+input:focus, select:focus {
+  border-color: #333;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+}
+
+button {
+  background: black;
+  color: #fff;
+  padding: 0.85rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+button:hover:not([disabled]) {
+  background: linear-gradient(to right, #121212, #333333);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button[disabled] {
+  background: linear-gradient(to right, #888888, #666666);
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.success, .error {
+  font-size: 0.9rem;
+  padding: 0.75rem;
+  border-radius: 6px;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.success {
+  color: #2e7d32;
+  background-color: rgba(46, 125, 50, 0.08);
+  border-left: 3px solid #2e7d32;
+}
+
+.error {
+  color: #e53935;
+  background-color: rgba(229, 57, 53, 0.08);
+  border-left: 3px solid #e53935;
+}

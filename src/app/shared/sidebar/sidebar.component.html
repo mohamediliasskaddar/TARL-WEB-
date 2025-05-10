@@ -1,4 +1,4 @@
-<div class="sidebar">
+<!-- <div class="sidebar">
     <button *ngIf="userRole === 'Teacher'" (click)="select('student-register')">➕ Register Student</button>
     <button *ngIf="userRole === 'Teacher'" (click)="select('student-list')">📋 View Students</button>
     <button *ngIf="userRole === 'Teacher'" (click)="select('test-create')">📝 Create Test</button>
@@ -6,5 +6,57 @@
     
     <button *ngIf="userRole === 'Administrator' || userRole === 'Principal'" (click)="select('user-list')">📋 View Pending Users</button>  
     <button *ngIf="userRole === 'Administrator' || userRole === 'Principal'" (click)="select('parent-create')">👨‍👩‍👧 Create Parent Account</button>
-</div>
+</div> -->
   
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<div class="sidebar">
+  <!-- roles : Teacher -->
+  <button 
+    *ngIf="userRole === 'Teacher'" 
+    (click)="select('student-register')" 
+    [class.active]="selectedSection === 'student-register'">
+    <span class="material-icons">person_add</span> Register Student
+  </button>
+
+  <button 
+    *ngIf="userRole === 'Teacher'" 
+    (click)="select('student-list')" 
+    [class.active]="selectedSection === 'student-list'">
+    <span class="material-icons">people</span> View Students
+  </button>
+
+  <button 
+    *ngIf="userRole === 'Teacher'" 
+    (click)="select('test-create')" 
+    [class.active]="selectedSection === 'test-create'">
+    <span class="material-icons">note_add</span> Create Test
+  </button>
+
+  <button 
+    *ngIf="userRole === 'Teacher'" 
+    (click)="select('test-list')" 
+    [class.active]="selectedSection === 'test-list'">
+    <span class="material-icons">assignment</span> View Tests
+  </button>
+
+  <!-- roles : Administrator, Principal -->
+  <button 
+    *ngIf="userRole === 'Administrator' || userRole === 'Principal'" 
+    (click)="select('user-list')" 
+    [class.active]="selectedSection === 'user-list'">
+    <span class="material-icons">admin_panel_settings</span> View Pending Users
+  </button>
+
+  <button 
+    *ngIf="userRole === 'Administrator' || userRole === 'Principal'" 
+    (click)="select('parent-create')" 
+    [class.active]="selectedSection === 'parent-create'">
+    <span class="material-icons">group_add</span> Create Parent Account
+  </button>
+</div>
+
+
+
+

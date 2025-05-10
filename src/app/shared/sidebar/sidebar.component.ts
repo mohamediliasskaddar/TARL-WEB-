@@ -12,6 +12,7 @@ import { NgIf } from '@angular/common';
 export class SidebarComponent {
   userRole: string | null = null;
   @Output() sectionSelected = new EventEmitter<string>();
+  selectedSection: string = '';
 
   constructor(private auth: AuthService) {}
 
@@ -22,6 +23,7 @@ export class SidebarComponent {
   }
 
   select(section: string) {
+    this.selectedSection = section; 
     this.sectionSelected.emit(section);
   }
 }
