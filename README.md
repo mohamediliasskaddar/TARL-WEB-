@@ -74,12 +74,14 @@ For real data examples and templates, check the `/JSON_DB` directory:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/najlae01/math-web.git
+   git clone git remote add origin https://github.com/mohamediliasskaddar/TARL-WEB-.git
    ```
 2. Install dependencies:
    ```bash
-   npm install
+   npm install  
+   not (npm install @angular/fire) 
    ```
+  
 3. Create the file: `src/environments/environment.ts`
 
 4. Add your Firebase config like this:
@@ -123,6 +125,8 @@ export const environment = {
 6. Run the app:
    ```bash
    ng serve
+   or
+   ng s
    ```
 
 ## 🤝 Contributing
@@ -135,4 +139,4 @@ export const environment = {
 
 ## 📧 Contact
 
-For support, contact [Najlae](mailto:najlae.abarghache@etu.uae.ac.ma).
+For support, contact [Mohamed Iliass Kaddar](mailto:moahmediliassk@gmail.com).
