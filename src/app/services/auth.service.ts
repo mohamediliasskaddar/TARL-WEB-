@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 import { Database, ref, set, get } from '@angular/fire/database';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { from, Observable } from 'rxjs';
@@ -7,6 +7,7 @@ import { map, switchMap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  
   private auth = inject(Auth);
   private db = inject(Database); 
 
@@ -25,6 +26,30 @@ export class AuthService {
         };
         const userRef = ref(this.db, `users/${uid}`);
         return from(set(userRef, userData)).pipe(map(() => user));
+      })
+    );
+  }
+  //register a parent
+  registerParent(email: string, password: string, userProfile: any): Observable<any> {
+    return from(createUserWithEmailAndPassword(this.auth, email, password)).pipe(
+      switchMap(userCredential => {
+        const uid = userCredential.user.uid;
+        const user = userCredential.user;
+
+        const userData = {
+          uid,
+          email,
+          emailVerified: user.emailVerified,
+          role: 'Parent',
+          mustChangePassword: true, // pour forcer à changer à la première connexion si nécessaire
+          ...userProfile,
+        };
+
+        const userRef = ref(this.db, `users/${uid}`);
+        return from(set(userRef, userData)).pipe(
+          switchMap(() => from(sendEmailVerification(user))),
+          map(() => user)
+        );
       })
     );
   }

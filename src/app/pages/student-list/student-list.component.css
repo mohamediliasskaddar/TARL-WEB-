@@ -1,36 +1,9 @@
-/* table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 16px;
-  }
-  
-  th, td {
-    padding: 12px;
-    border: 1px solid #ccc;
-  }
-  
-  th {
-    background-color: #f4f4f4;
-    text-align: left;
-  }
-  
-  button {
-    padding: 6px 10px;
-    background: #e91e63;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-   */
+
    .student-list {
   max-width: 1500px;
   margin: 2rem auto;
   padding: 2rem;
-  /* background: linear-gradient(145deg, #ffffff, #f5f5f5); */
   border-radius: 12px;
-  /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); */
-  /* border: 1px solid rgba(0, 0, 0, 0.05); */
   font-family: 'Segoe UI', sans-serif;
 }
 

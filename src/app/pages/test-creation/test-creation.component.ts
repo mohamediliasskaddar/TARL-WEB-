@@ -1,24 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { Database, ref, set, onValue } from '@angular/fire/database';
-import { CommonModule } from '@angular/common';
+import { CommonModule, KeyValue } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { HttpClient } from '@angular/common/http';
-import {
-  FindCompositionsConfig,
-  VerticalOperationsConfig,
-  ChooseAnswerConfig,
-  MultiStepProblemConfig,
-  FindPreviousNextNumberConfig,
-  TapMatchingPairsConfig,
-  OrderNumbersConfig,
-  CompareNumbersConfig,
-  WhatNumberDoYouHearConfig,
-  DecomposeNumberConfig,
-  WriteNumberInLettersConfig,
-  IdentifyPlaceValueConfig,
-  ReadNumberAloudConfig
-} from '../../types/mini-game-types';
+import {FindCompositionsConfig, VerticalOperationsConfig, MultiStepProblemConfig} from '../../types/soustraction-mini-game-types'
 
 @Component({
   selector: 'app-test-creation',
@@ -28,6 +14,7 @@ import {
   styleUrl: './test-creation.component.css'
 })
 export class TestCreationComponent {
+
   private fb = inject(FormBuilder);
   private db = inject(Database);
   private auth = inject(AuthService);
@@ -37,24 +24,11 @@ export class TestCreationComponent {
   teacherUID: string = ""
   selectedMiniGames: string[] = [];
   allMiniGames: {
+  suggestedGradeRange: { min: number; max: number; };// i add this 
     id: string;
     title: string;
-    configTemplate: Partial<
-      FindCompositionsConfig &
-      VerticalOperationsConfig &
-      ChooseAnswerConfig &
-      MultiStepProblemConfig &
-      FindPreviousNextNumberConfig &
-      TapMatchingPairsConfig &
-      OrderNumbersConfig &
-      CompareNumbersConfig &
-      WhatNumberDoYouHearConfig &
-      DecomposeNumberConfig &
-      WriteNumberInLettersConfig &
-      IdentifyPlaceValueConfig &
-      ReadNumberAloudConfig
-    >;
-  }[] = [];
+    configTemplate: Partial<  FindCompositionsConfig &
+      VerticalOperationsConfig & MultiStepProblemConfig >; }[] = [];
   
   testForm: FormGroup = this.fb.group({
     title: ['', Validators.required],
@@ -64,46 +38,71 @@ export class TestCreationComponent {
     miniGameConfigs: this.fb.group({})
   });
 
-  ngOnInit() {
-    this.auth.getCurrentUserWithRole().subscribe(user => {
-      if (!user) return;
-      this.teacherUID = user.uid;
-      const usersRef = ref(this.db, 'users');
-  
-      onValue(usersRef, (snapshot) => {
-        const allUsers = snapshot.val();
-        const gradesSet = new Set<string>();
-  
-        for (const key in allUsers) {
-          const student = allUsers[key];
-          if (student.role === 'Student' && student.linkedTeacherId === this.teacherUID && student.schoolGrade) {
-            gradesSet.add(`${student.schoolGrade}`);
-          }
-        }
-  
-        this.gradeLevels = Array.from(gradesSet).sort(); // sort optional
-      });
-    });
+  private gameDefs: any = {};
 
-    // Load mini-game definitions
-    this.http.get('/mini-games.json').subscribe((data: any) => {
-      const gameDefs = data.miniGames;
-      const selectedGrade = this.testForm.get('classroomId')?.value || '4';
-      this.allMiniGames = Object.entries(gameDefs).map(([id, game]: any) => {
-        const gradeConfigs = game.defaultConfig?.gradeConfig || {};
-        const fallbackConfig = Object.values(gradeConfigs)[0] || {};
-        return {
-          id,
-          title: game.title?.en || id,
-          configTemplate: gradeConfigs[selectedGrade] || fallbackConfig
-        };
-      });
+
+ngOnInit() {
+  // Step 1: Get the logged-in teacher and load student grades
+  this.auth.getCurrentUserWithRole().subscribe(user => {
+    if (!user) return;
+    this.teacherUID = user.uid;
+    const usersRef = ref(this.db, 'users');
+    onValue(usersRef, (snapshot) => {
+      const allUsers = snapshot.val();
+      const gradesSet = new Set<string>();
+
+      for (const key in allUsers) {
+        const student = allUsers[key];
+        if (student.role === 'Student' && student.linkedTeacherId === this.teacherUID && student.schoolGrade) {
+          gradesSet.add(`${student.schoolGrade}`);
+        }
+      }
+      this.gradeLevels = Array.from(gradesSet).sort();
     });
-    
+  });
+
+  // Step 2: Load mini-games from JSON
+  this.http.get('JSON/soustraction-mini-games.json').subscribe((data: any) => {
+    this.gameDefs = data.miniGames;
+    const selectedGrade = Number(this.testForm.get('classroomId')?.value || '4');
+    this.allMiniGames = this.getFilteredMiniGames(selectedGrade);
+    this.testForm.get('classroomId')?.valueChanges.subscribe((newGrade: string) => {
+      const grade = Number(newGrade);
+      this.allMiniGames = this.getFilteredMiniGames(grade);
+    });
+  });
+}
+// filteer  
+getFilteredMiniGames(grade: number) {
+  return Object.entries(this.gameDefs).map(([id, game]: any) => {
+    const gradeConfigs = game.defaultConfig?.gradeConfig || {};
+    const fallbackConfig = Object.values(gradeConfigs)[0] || {};
+
+    return {
+      id,
+      title: game.title?.en || id,
+      suggestedGradeRange: game.suggestedGradeRange, 
+      configTemplate: gradeConfigs[grade] || fallbackConfig
+    };
+  });
+}
+
+//to filter grades 
+  isGradeInRange(gradeRange: { min: number, max: number }, selectedGrade: number): boolean {
+  return selectedGrade >= gradeRange.min && selectedGrade <= gradeRange.max;
+}
+
+  getKey(key: any): string {
+      return key.key;
+  }
+
+  onCheckboxChange(event: Event, gameId: string) {
+    const input = event.target as HTMLInputElement;
+    this.onMiniGameToggle(gameId, input.checked);
   }
 
   onMiniGameToggle(gameId: string, checked: boolean) {
-    const configs = this.testForm.get('miniGameConfigs') as FormGroup;
+    const configs = this.testForm.get('miniGameConfigs') as FormGroup; 
     if (checked) {
       this.selectedMiniGames.push(gameId);
       configs.addControl(gameId, this.fb.group(this.buildMiniGameControls(gameId)));
@@ -113,7 +112,7 @@ export class TestCreationComponent {
     }
     this.testForm.get('selectedMiniGames')?.setValue(this.selectedMiniGames);
   }
-
+  
   buildMiniGameControls(gameId: string): { [key: string]: FormControl } {
     const game = this.allMiniGames.find(g => g.id === gameId);
     const fields = game?.configTemplate || {};
@@ -126,11 +125,7 @@ export class TestCreationComponent {
     return controls;
   }  
 
-  onCheckboxChange(event: Event, gameId: string) {
-    const input = event.target as HTMLInputElement;
-    this.onMiniGameToggle(gameId, input.checked);
-  }  
-
+//fct done 
   submitTest() {
     if (this.testForm.invalid) return;
 
@@ -145,16 +140,9 @@ export class TestCreationComponent {
       miniGameOrder: testData.selectedMiniGames,
       miniGameConfigs: testData.miniGameConfigs,
       createdAt: Date.now(),
-    };
-      
+    };//DB
     set(ref(this.db, `tests/${testId}`), testObject)
-    .then(() => alert('✅ Test created successfully!'))
-    .catch((err) => console.error('❌ Error saving test:', err));
+    .then(() => alert(' Test created successfully!'))
+    .catch((err) => console.error(' Error saving test:', err));
   }
-
-  getKey(key: any): string {
-    return key.key;
-  }
-  
-  
 }

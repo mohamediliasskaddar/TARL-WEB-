@@ -1,0 +1,89 @@
+{
+  "miniGames": {
+    "find_compositions": {
+      "id": "find_compositions",
+      "title": {
+        "ar": "ابحث عن التركيبات",
+        "fr": "Trouve les compositions",
+        "en": "Find Compositions"
+      },
+      "description": {
+        "ar": "ابحث عن كل التركيبات الممكنة للنتيجة المطلوبة",
+        "fr": "Trouve toutes les compositions possibles pour le résultat cible",
+        "en": "Find all possible compositions for the target result"
+      },
+      "version": "1.0",
+      "suggestedGradeRange": { "min": 2, "max": 5 },
+      "defaultConfig": {
+        "gradeConfig": {
+          "2": { "max_number": 20, "min_number": 10, "num_questions": 5, "duration": 300, "min_required_answers": 3 },
+          "3": { "max_number": 30, "min_number": 15, "num_questions": 6, "duration": 300, "min_required_answers": 4 },
+          "4": { "max_number": 40, "min_number": 20, "num_questions": 7, "duration": 300, "min_required_answers": 5 },
+          "5": { "max_number": 50, "min_number": 25, "num_questions": 8, "duration": 300, "min_required_answers": 6 }
+        }
+      }
+    },
+    "vertical_operations": {
+      "id": "vertical_operations",
+      "title": {
+        "ar": "العمليات العمودية",
+        "fr": "Opérations verticales",
+        "en": "Vertical Operations"
+      },
+      "description": {
+        "ar": "حل العمليات العمودية",
+        "fr": "Résous les opérations verticales",
+        "en": "Solve vertical operations"
+      },
+      "version": "1.0",
+      "suggestedGradeRange": { "min": 3, "max": 6 },
+      "defaultConfig": {
+        "gradeConfig": {
+          "3": { "max_number": 100, "min_number": 50, "with_borrowing": false, "num_questions": 5, "duration": 300, "min_required_answers": 3 },
+          "4": { "max_number": 500, "min_number": 200, "with_borrowing": true, "num_questions": 6, "duration": 300, "min_required_answers": 4 },
+          "5": { "max_number": 999, "min_number": 500, "with_borrowing": true, "num_questions": 7, "duration": 300, "min_required_answers": 5 },
+          "6": { "max_number": 999, "min_number": 500, "with_borrowing": true, "num_questions": 8, "duration": 300, "min_required_answers": 6 }
+        }
+      }
+    },
+    "multi_step_problem": {
+      "id": "multi_step_problem",
+      "title": {
+        "ar": "حل مسألة متعددة الخطوات",
+        "fr": "Résous un problème à plusieurs étapes",
+        "en": "Solve a Multi-Step Word Problem"
+      },
+      "description": {
+        "ar": "حل مسائل تحتوي على عدة عمليات",
+        "fr": "Résous des problèmes à plusieurs opérations",
+        "en": "Solve multi-step problems with multiple operations"
+      },
+      "version": "1.0",
+      "suggestedGradeRange": { "min": 5, "max": 6 },
+      "defaultConfig": {
+        "gradeConfig": {
+          "5": {
+            "prompt_text": "You went shopping and bought several items. Calculate the total amount left after each step.",
+            "num_questions": 3,
+            "max_number": 200,
+            "min_number": 100,
+            "num_steps": 2,
+            "with_borrowing": true,
+            "duration": 420,
+            "min_required_answers": 2
+          },
+          "6": {
+            "prompt_text": "You had an amount of money, made multiple purchases. How much is left?",
+            "num_questions": 4,
+            "max_number": 300,
+            "min_number": 150,
+            "num_steps": 3,
+            "with_borrowing": true,
+            "duration": 480,
+            "min_required_answers": 3
+          }
+        }
+      }
+    }
+  }
+}

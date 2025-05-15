@@ -1,38 +1,45 @@
 <h2>Create a New Test</h2>
 
 <form [formGroup]="testForm" (ngSubmit)="submitTest()">
+  <!-- title  -->
   <label>Title</label>
   <input type="text" formControlName="title" placeholder="Test title" />
-
+ <!-- gardes  -->
   <label>Classroom</label>
   <select formControlName="classroomId">
     <option *ngFor="let grade of gradeLevels" [value]="grade">
       {{ grade }}
     </option>
   </select>
-
+<!-- duration  -->
   <label>Test Duration (minutes)</label>
   <input type="number" formControlName="testDuration" />
 
   <hr />
-
+<!-- we need to controle the min games that gonna be availble dependig on the grade selected  -->
   <label>Select Mini-Games</label>
+  <div *ngIf="allMiniGames.length > 0">
   <div *ngFor="let game of allMiniGames">
-    <label>
-      <input
-        type="checkbox"
-        [checked]="selectedMiniGames.includes(game.id)"
-        (change)="onCheckboxChange($event, game.id)"
-      />
-      {{ game.title }}
-    </label>
+    <!-- Check if the grade selected is within the suggested grade range for each game -->
+    <div *ngIf="isGradeInRange(game.suggestedGradeRange, testForm.get('classroomId')?.value)">
+      <label>
+        <input
+          type="checkbox"
+          [checked]="selectedMiniGames.includes(game.id)"
+          (change)="onCheckboxChange($event, game.id)"
+        />
+        {{ game.title }}
+      </label>
+    </div>
+  </div>
   </div>
 
   <hr />
-
+   <!-- configation de chaque mini game 'miniGameConfigs' -->
   <div formGroupName="miniGameConfigs">
     <div *ngFor="let gameId of selectedMiniGames">
-      <h4>{{ gameId.replace('_', ' ') | titlecase }} Config</h4>
+      <!-- title  -->
+      <h4>{{ gameId.replace('_', ' ') | titlecase }} Configuration </h4>
       <div [formGroupName]="gameId">
         <div *ngFor="let key of testForm.get('miniGameConfigs')?.get(gameId)?.value | keyvalue">
           <label>{{ key.key }}</label>
@@ -44,6 +51,5 @@
       </div>
     </div>
   </div>
-
   <button type="submit">Save Test</button>
 </form>

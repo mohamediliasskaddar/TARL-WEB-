@@ -55,6 +55,15 @@
     [class.active]="selectedSection === 'parent-create'">
     <span class="material-icons">group_add</span> Create Parent Account
   </button>
+
+  <!-- Parent -->
+    <button 
+    *ngIf="userRole === 'Parent'" 
+    (click)="select('parent-students')" 
+    [class.active]="selectedSection === 'parent-students'">
+    <span class="material-icons">group_add</span> parent-stusents
+  </button>
+
 </div>
 
 

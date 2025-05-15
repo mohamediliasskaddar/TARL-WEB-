@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { NgIf } from '@angular/common';
 import { RoleManagementComponent } from '../role-management/role-management.component';
@@ -9,17 +9,18 @@ import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
 import { TestCreationComponent } from '../test-creation/test-creation.component';
 import { TestListComponent } from '../test-list/test-list.component';
 import { CreateParentComponent } from '../create-parent/create-parent.component';
+import { ParentStudentsComponent } from '../parent-students/parent-students.component';
 
 @Component({
   selector: 'app-dashboard',
   imports: [NgIf, NavBarComponent, SidebarComponent, 
     RoleManagementComponent, StudentRegistrationComponent, 
     StudentListComponent, TestCreationComponent, 
-    TestListComponent, CreateParentComponent],
+    TestListComponent, CreateParentComponent, ParentStudentsComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   userRole: string | null = null;
   loading = true;
   selectedSection = 'student-list'; // default view for teachers
@@ -33,11 +34,18 @@ export class DashboardComponent {
       if (this.userRole === "Teacher") {
         this.selectedSection = 'student-list';
       }
-      else if (this.userRole === "Admistrator" || this.userRole === "Principal")
+      else if (this.userRole === "Administrator" || this.userRole === "Principal")
       {
         this.selectedSection = 'user-list';
       }
+      else if (this.userRole === 'Parent') {
+      this.selectedSection = 'parent-students';
+    }
+      // todelete 
+      console.log('User:', user);
+      console.log('Role:', user?.role);
     });
+
   }
 
   onSectionSelected(section: string) {

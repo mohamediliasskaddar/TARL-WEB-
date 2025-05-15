@@ -1,0 +1,27 @@
+<div class="parent-students">
+  <div class="select-part">
+    <div *ngIf="children.length > 0; else noChildren">
+        <label for="childSelect">Sélectionnez un enfant :</label>
+        <select id="childSelect" [(ngModel)]="selectedChildId">
+          <option [ngValue]="''" disabled selected>-- Choisir un enfant --</option>
+          <option *ngFor="let child of children" [value]="child.uid">
+            {{ child.firstName }} {{ child.lastName }} at the  garde  : {{child.schoolGrade}}
+          </option>
+        </select>
+      </div>
+  </div>
+    <div class="display-part">
+        <div *ngIf="selectedChild">
+          <h3>Détails de l'enfant sélectionné</h3>
+          <p><strong>Nom :</strong> {{ selectedChild.lastName }}</p>
+          <p><strong>Prénom :</strong> {{ selectedChild.firstName }}</p>
+          <p><strong>Date de naissance :</strong> {{ selectedChild.birthday }}</p>
+          <p><strong>Genre :</strong> {{ selectedChild.gender }}</p>
+          <p><strong>Niveau scolaire :</strong> {{ selectedChild.schoolGrade }}</p>
+          <p><strong>Rôle :</strong> {{ selectedChild.role }}</p>
+        </div>
+    </div>
+    <ng-template #noChildren>
+        <p>Aucun enfant lié à ce parent.</p>
+    </ng-template>
+</div>

@@ -230,7 +230,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('../../assets/images/back.png');
+  background-image: url('/assets/images/back.png');
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;

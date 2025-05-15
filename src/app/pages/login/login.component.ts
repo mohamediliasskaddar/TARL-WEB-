@@ -17,6 +17,8 @@ export class LoginComponent {
   loading = false;
   errorMessage: string | null = null;
 
+  logoPath: string = '/assets/images/lg.png';
+
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -25,7 +27,9 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    if (this.loginForm.invalid) return;
+    if (this.loginForm.invalid) {
+      alert('All fields are needed and must be valid');
+      return;}
 
     this.loading = true;
     const { email, password } = this.loginForm.value;

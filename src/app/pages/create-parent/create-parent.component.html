@@ -9,12 +9,16 @@
         <span class="material-symbols-outlined">supervisor_account</span>
          Parent Details</h3>
       <div class="form-group">
-        <label>First Name:</label>
+        <label>First Name:</label>  
         <input type="text" [(ngModel)]="parentFirstName" (ngModelChange)="generateUsername()" placeholder="Enter Parent's First Name" required />
       </div>
       <div class="form-group">
         <label>Last Name:</label>
         <input type="text" [(ngModel)]="parentLastName" (ngModelChange)="generateUsername()" placeholder="Enter Parent's Last Name" required />
+      </div>
+      <div class="form-group">
+        <label>Email:</label>
+          <input type="email" [(ngModel)]="parentEmail" placeholder="Enter Parent's Email" required />
       </div>
       <div class="form-group">
         <label>Username (Auto-Generated):</label>
@@ -23,6 +27,7 @@
       <div class="form-group">
         <label>Generated Password:</label>
         <input type="text" [(ngModel)]="parentPassword" readonly />
+        <button type="button" (click)="generatePassword()" title="Regenerate password">🔁</button>
       </div>
     </div>
   
@@ -35,9 +40,8 @@
             {{ student.firstName }} {{ student.lastName }}
           </option>
         </select>
-        <button type="button" (click)="linkChild()" class="link-btn"><span class="material-symbols-outlined">
-supervised_user_circle
-</span> Link Child</button>
+        <button type="button" (click)="linkChild()" class="link-btn">
+          <span class="material-symbols-outlined">supervised_user_circle</span> Link Child</button>
       </div>
   
       <div *ngIf="linkedChildren.length > 0" class="linked-children">
@@ -56,9 +60,7 @@ supervised_user_circle
         <span class="material-symbols-outlined">how_to_reg</span> 
         Create Parent Account
       </button>
-      <button class="reset-btn" (click)="resetForm()"><span class="material-symbols-outlined">
-redo
-</span> Reset Form</button>
+      <button class="reset-btn" (click)="resetForm()"><span class="material-symbols-outlined">redo</span> Reset Form</button>
     </div>
   </div>
   

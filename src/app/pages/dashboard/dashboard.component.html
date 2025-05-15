@@ -1,5 +1,7 @@
 <div *ngIf="loading">
     Loading dashboard...
+     <p><strong>Role:</strong> {{ userRole }}</p>
+  <p><strong>Section:</strong> {{ selectedSection }}</p>
   </div>
   
   <div *ngIf="!loading">
@@ -22,9 +24,13 @@
         </div>
     </div>
 
-    <div *ngIf="userRole === 'Parent'">
-        <p>Your role: {{ userRole }}</p>
-        <p>Please download and use our app "AppName".</p>
+    <div *ngIf="userRole === 'Parent'" class="parent-dashboard">
+        <app-sidebar (sectionSelected)="onSectionSelected($event)"></app-sidebar>
+        <div class="parent-content">
+        <app-parent-students *ngIf="selectedSection === 'parent-students' "> </app-parent-students>
+        <!-- <p>Your role: {{ userRole }}</p>
+        <p>Please download and use our app "PvZ".</p> -->
+        </div>
     </div>
-  </div>
+</div>
   

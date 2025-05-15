@@ -1,0 +1,52 @@
+.parents-students{
+  max-width: 1500px;
+  margin: 100px;
+  margin-left: 1000px;
+  padding: 6rem;
+  border-radius: 12px;
+  font-family: 'Segoe UI', sans-serif;
+}
+.display-part{
+  max-width: 1500px;
+  background-color: #ffffff; /* blanc */
+  color: #121212;            /* texte noir */
+  padding: 20px;
+  border-radius: 8px;
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
+  font-family: 'Arial', sans-serif;
+}
+.select-part{
+  background-color: #ffffff; /* blanc */
+  color: #121212;            /* texte noir */
+  padding: 20px;
+  border-radius: 8px;
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
+  font-family: 'Arial', sans-serif;
+  max-width: 20%;
+}
+
+.parent-students label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.parent-students select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9; /* gris clair */
+  margin-bottom: 16px;
+}
+
+.parent-students h3 {
+  color: #000000;
+  margin-top: 20px;
+}
+
+.parent-students p {
+  margin: 4px 0;
+  color: #444;
+}

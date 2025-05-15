@@ -1,10 +1,10 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { Database, ref, set, push, get } from '@angular/fire/database';
-import {  FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {  FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { from } from 'rxjs';
 import jsPDF from 'jspdf';
-import { hashPassword } from '../../utils/password-utils';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-create-parent',
@@ -15,6 +15,8 @@ import { hashPassword } from '../../utils/password-utils';
 })
 
 export class CreateParentComponent {
+ 
+  parentEmail = '';
   parentFirstName = '';
   parentLastName = '';
   parentUsername = '';
@@ -23,7 +25,7 @@ export class CreateParentComponent {
   linkedChildren: string[] = [];
   selectedChildId: string = '';
 
-  constructor(private db: Database) {
+  constructor(private db: Database, private auth: AuthService) {
     this.loadStudents();
     this.generateUsername();
     this.generatePassword();
@@ -48,7 +50,6 @@ export class CreateParentComponent {
       this.parentUsername = '';
       return;
     }
-  
     const name = `${this.parentFirstName.trim().toLowerCase()}_${this.parentLastName.trim().toLowerCase()}`;
     const randomNum = Math.floor(Math.random() * 10000);
   
@@ -86,6 +87,42 @@ export class CreateParentComponent {
       .join('');
   }
 
+  
+//with db 
+  createParentAccount() {
+    if (this.linkedChildren.length === 0) {
+      alert("A parent must have at least one linked child.");
+      return;
+    }
+    if (!this.parentEmail || !this.parentPassword) {
+    alert("Email and password are required.");
+    return;
+  }
+
+  const parentProfile = {
+    firstName: this.parentFirstName,
+    lastName: this.parentLastName,
+    linkedChildrenIds: this.linkedChildren,
+    username: this.parentUsername,
+    school: '', // facultatif
+  };
+  //apel authh
+   this.auth.registerParent(this.parentEmail, this.parentPassword, parentProfile).subscribe({
+    next: (user) => {
+          alert(
+            ` Parent account created with UID: ${user.uid}\n\n` +
+            ` A verification email has been sent to ${this.parentEmail}. Please check your inbox.`
+          );
+
+      this.generatePDF(this.parentFirstName, this.parentLastName, this.parentEmail, this.parentPassword);
+      this.resetForm();
+    },
+    error: (err) => {
+      console.error('Error creating parent account:', err);
+      alert('Failed to create parent account: ' + err.message);
+    }
+  });
+}
   linkChild() {
     if (this.selectedChildId && !this.linkedChildren.includes(this.selectedChildId)) {
       this.linkedChildren.push(this.selectedChildId);
@@ -96,55 +133,28 @@ export class CreateParentComponent {
     this.linkedChildren = this.linkedChildren.filter(id => id !== childId);
   }
 
-
   getChildName(childId: string): string {
     const student = this.students.find(s => s.uid === childId);
     return student ? `${student.firstName} ${student.lastName}` : 'Unknown';
   }
-
-  createParentAccount() {
-    if (this.linkedChildren.length === 0) {
-      alert("A parent must have at least one linked child.");
-      return;
-    }
-    
-    const newParentRef = push(ref(this.db, 'users'));
-    const parentUid = newParentRef.key;
-
-    const hashedPassword = hashPassword(this.parentPassword);
-
-    set(newParentRef, {
-      uid: parentUid,
-      username: this.parentUsername,
-      password: hashedPassword,
-      mustChangePassword: true,
-      role: 'Parent',
-      firstName: this.parentFirstName,
-      lastName: this.parentLastName,
-      linkedChildrenIds: this.linkedChildren
-    });
-
-    alert(`Parent Account Created\nUsername: ${this.parentUsername}\nPassword: ${this.parentPassword}`);
-    this.generatePDF(this.parentFirstName, this.parentLastName, this.parentUsername, this.parentPassword);
-    this.resetForm();
-  }
-
   resetForm() {
     this.parentFirstName = '';
     this.parentLastName = '';
     this.generatePassword();
     this.linkedChildren = [];
+    this.parentEmail = ''
+    this.parentUsername = '';
   }
-
-  generatePDF(firstName: string, lastName: string, username: string, password: string) {
+  //pdff file 
+  generatePDF(firstName: string, lastName: string, email: string, password: string) {
     const doc = new jsPDF();
     doc.setFontSize(16);
     doc.text(`Dear ${firstName} ${lastName}, the following are your account credentials:`, 20, 20);
     doc.setFontSize(12);
-    doc.text(`Username: ${username}`, 20, 40);
+    doc.text(`Username: ${email}`, 20, 40);
     doc.text(`Password: ${password}`, 20, 50);
     doc.text(`Please keep this information secure.`, 20, 70);
   
-    doc.save(`Parent_Credentials_${username}.pdf`);
+    doc.save(`Parent_Credentials_${email}.pdf`);
   }
 }
