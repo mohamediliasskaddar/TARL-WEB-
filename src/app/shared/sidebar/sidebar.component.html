@@ -40,6 +40,12 @@
     [class.active]="selectedSection === 'test-list'">
     <span class="material-icons">assignment</span> View Tests
   </button>
+  <button 
+    *ngIf="userRole === 'Teacher'" 
+    (click)="select('student-performance')" 
+    [class.active]="selectedSection === 'student-performance'">
+    <span class="material-symbols-outlined">monitoring</span>students performance
+  </button>
 
   <!-- roles : Administrator, Principal -->
   <button 

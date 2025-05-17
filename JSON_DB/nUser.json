@@ -1,0 +1,44 @@
+   {
+    "cPcF70DhyUgaL38pU37csaf8Ns23": {
+      "uid": "cPcF70DhyUgaL38pU37csaf8Ns23",
+      "role": "Student",
+      "firstName": "Najlae",
+      "lastName": "Abarghache",
+      "gender": "Female",
+      "birthday": "2001-07-26",
+      "schoolGrade": 6,
+      "linkedTeacherId": "uid_789",
+
+      "playerProfile": {
+        "playerName": "Najlae",
+        "gameLevel": 1,
+        "mathLevel": 4,
+        "coins": 25,
+        "questionsSolved": 320,
+        "skillsToImprove" : ["Vertical Operation Accuracy", "Multiplication", "Division"],
+        "rewardProfile": {
+          "score": 85,
+          "rank": 3,
+          "iScore": 44,
+          "rewardCount": 7,
+          "positives": 120,
+          "negatives": 15
+        }
+      },
+      "gameProgress": {
+        "find_compositions": {
+          "lastScore": 10,
+          "bestScore": 15,
+          "completedAt": "2025-04-05T16:40:00Z"
+        },
+        "vertical_operations": {
+          "lastScore": 8,
+          "bestScore": 10,
+          "completedAt": "2025-04-04T18:00:00Z"
+        }
+      },
+      "achievements": {
+        "badges": ["Quick Thinker", "Accuracy Master"]
+      }
+    }
+}

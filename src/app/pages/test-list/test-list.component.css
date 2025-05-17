@@ -1,54 +1,11 @@
-/* h2 {
-    font-size: 24px;
-    margin-bottom: 16px;
-    color: #2c3e50;
-  }
-  
-  label {
-    font-weight: bold;
-    margin-right: 8px;
-  }
-  
-  select {
-    padding: 6px 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    margin-bottom: 20px;
-  }
-  
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  li {
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    margin-bottom: 10px;
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 16px;
-    color: #34495e;
-    display: flex;
-    align-items: center;
-  }
-  
-  li strong {
-    color: #2c3e50;
-  }
-  
-  div[ng-reflect-ng-if="true"] {
-    margin-top: 20px;
-    font-style: italic;
-    color: #888;
-  }
-   */
-   /* Heading */
+/* 
+.test{
+  border: solide black ;
+}
 h2 {
   font-size: 1.5rem;
   margin-bottom: 16px;
-  color: #121212; /* Dark text for the heading */
+  color: #121212; /* Dark text for the heading 
   text-align: center;
   font-weight: 600;
   position: relative;
@@ -64,7 +21,7 @@ h2::after {
   border-radius: 3px;
 }
 
-/* Label styling */
+/* Label styling 
 label {
   font-weight: 600;
   margin-right: 8px;
@@ -72,7 +29,7 @@ label {
   font-size: 0.95rem;
 }
 
-/* Select input styling */
+/* Select input styling 
 select {
   padding: 8px 12px;
   font-size: 14px;
@@ -90,7 +47,7 @@ select:focus {
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
 }
 
-/* List styling */
+/* List styling 
 ul {
   list-style-type: none;
   padding: 0;
@@ -117,11 +74,11 @@ li:hover {
 
 li strong {
   color: black;
-  /* color: #2c3e50; */
+ 
   font-weight: 700;
 }
 
-/* Optional message styling */
+
 div[ng-reflect-ng-if="true"] {
   margin-top: 20px;
   font-style: italic;
@@ -129,10 +86,10 @@ div[ng-reflect-ng-if="true"] {
   text-align: center;
 }
 li .icon {
-  margin-right: 12px; /* Adds space between the icon and the title */
+  margin-right: 12px; 
 }
 
-/* Responsive adjustments for select and list items */
+
 @media (max-width: 768px) {
   select {
     font-size: 16px;
@@ -150,4 +107,171 @@ select {
     border: 1px solid #ccc;
     border-radius: 6px;
     margin-bottom: 20px;
-  }
+  } */ 
+
+  /* General page styling */
+body {
+  background-color: #f4f4f4; /* Very light gray background */
+  color: #111; /* Black text */
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  margin: 0;
+  padding: 2rem;
+}
+
+/* Page title */
+ h2{
+ text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #121212;
+  position: relative;
+}
+h2::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(to right, #333333, #888888);
+  margin: 0.5rem auto 0;
+  border-radius: 3px;
+}
+
+/* Filter section */
+.filter-section {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: #333;
+}
+
+.filter-section select {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+/* Test list layout */
+.test-list {
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* Test card design */
+.test-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-left: 4px solid #444;
+  border-radius: 8px;
+  padding: 1.2rem 1.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease;
+}
+
+.test-card:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Test title */
+.test-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #000;
+}
+
+/* Test info like grade and duration */
+.test-info {
+  margin: 0.3rem 0;
+  color: #444;
+  font-size: 0.95rem;
+}
+
+/* Draft or Published status */
+.test-status {
+  margin: 0.5rem 0;
+  font-weight: 500;
+}
+
+.test-status .draft {
+  color: #cc8800;
+  font-weight: bold;
+}
+
+.test-status .published {
+  color: #2e8b57;
+  font-weight: bold;
+}
+
+/* Mini-game section */
+.mini-games {
+  margin-top: 0.8rem;
+}
+
+.mini-games strong {
+  color: #222;
+}
+
+.mini-games ul {
+  margin: 0.3rem 0 0 1.2rem;
+  padding: 0;
+  list-style-type: disc;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+/* Empty message when no tests are found */
+.empty-message {
+  margin-top: 2rem;
+  font-style: italic;
+  color: #888;
+  text-align: center;
+}
+button {
+  background-color: #000000; /* Blue color for consistency */
+  color: white;
+  /* border: none; */
+  border-radius: 4px;
+  padding: 0.5rem ; 
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin: 1rem; 
+  margin-bottom: 0.4rem; 
+  width: 100px;
+  text-align: center;
+}
+
+/* Hover effect */
+button:hover {
+  background-color: gray;
+  transform: translateY(-2px);
+}
+
+/* Focus effect */
+button:focus {
+  outline: none;
+  box-shadow: 0 0 3px rgba(0, 140, 202, 0.6);
+}
+
+/* Special styles for Publish/Unpublish buttons */
+button.publish-button {
+  background-color: black; /* Green for publish */
+}
+
+button.publish-button:hover {
+  background-color: gray; /* Darker green */
+}
+
+button.unpublish-button {
+  background-color: #dc3545; /* Red for unpublish */
+}
+
+button.unpublish-button:hover {
+  background-color:gray; /* Darker red */
+}
+
+  

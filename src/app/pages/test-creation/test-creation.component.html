@@ -1,55 +1,85 @@
 <h2>Create a New Test</h2>
 
 <form [formGroup]="testForm" (ngSubmit)="submitTest()">
-  <!-- title  -->
+
+  <!-- Title -->
   <label>Title</label>
   <input type="text" formControlName="title" placeholder="Test title" />
- <!-- gardes  -->
+
+  <!-- Draft -->
+  <label>
+    <input type="checkbox" formControlName="isDraft" />
+    Make the test a draft
+  </label>
+
+  <!-- Special -->
+  <label>
+    <input type="checkbox" formControlName="isSpecial" />
+    Special test
+  </label>
+
+  <!-- Student selection (only if special) -->
+  <div *ngIf="testForm.get('isSpecial')!.value">
+    <label>Select students:</label>
+    <div *ngFor="let stu of availableStudents">
+      <label>
+        <input
+          #cb
+          type="checkbox"
+          [checked]="selectedStudentIds.includes(stu.id)"
+          (change)="onStudentToggle(stu.id, $any(cb).checked)"
+        />
+        {{ stu.name }}
+      </label>
+    </div>
+  </div>
+
+  <!-- Classroom -->
   <label>Classroom</label>
   <select formControlName="classroomId">
     <option *ngFor="let grade of gradeLevels" [value]="grade">
       {{ grade }}
     </option>
   </select>
-<!-- duration  -->
+
+  <!-- Duration -->
   <label>Test Duration (minutes)</label>
   <input type="number" formControlName="testDuration" />
 
   <hr />
-<!-- we need to controle the min games that gonna be availble dependig on the grade selected  -->
+
+  <!-- Mini-Games selection -->
   <label>Select Mini-Games</label>
-  <div *ngIf="allMiniGames.length > 0">
   <div *ngFor="let game of allMiniGames">
-    <!-- Check if the grade selected is within the suggested grade range for each game -->
-    <div *ngIf="isGradeInRange(game.suggestedGradeRange, testForm.get('classroomId')?.value)">
+    <div *ngIf="isGradeInRange(game.suggestedGradeRange, testForm.get('classroomId')!.value)">
       <label>
         <input
           type="checkbox"
-          [checked]="selectedMiniGames.includes(game.id)"
-          (change)="onCheckboxChange($event, game.id)"
+          [checked]="selectedMiniGameIds.includes(game.id)"
+          (change)="onMiniGameToggle(game.id, $any($event.target).checked)"
         />
         {{ game.title }}
       </label>
     </div>
   </div>
-  </div>
 
   <hr />
-   <!-- configation de chaque mini game 'miniGameConfigs' -->
+
+  <!-- Mini-Game Configs -->
   <div formGroupName="miniGameConfigs">
-    <div *ngFor="let gameId of selectedMiniGames">
-      <!-- title  -->
-      <h4>{{ gameId.replace('_', ' ') | titlecase }} Configuration </h4>
+    <div *ngFor="let gameId of selectedMiniGameIds">
+      <h4>{{ gameId.replace('_', ' ') | titlecase }} Configuration</h4>
       <div [formGroupName]="gameId">
-        <div *ngFor="let key of testForm.get('miniGameConfigs')?.get(gameId)?.value | keyvalue">
-          <label>{{ key.key }}</label>
+        <div *ngFor="let kv of testForm.get('miniGameConfigs')!.get(gameId)!.value | keyvalue">
+          <label>{{ kv.key }}</label>
           <input
             type="text"
-            [formControlName]="getKey(key)"
-            />            
+            [formControlName]="$any(kv.key)"
+          />
         </div>
       </div>
     </div>
   </div>
+
   <button type="submit">Save Test</button>
 </form>

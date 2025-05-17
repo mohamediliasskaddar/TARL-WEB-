@@ -21,6 +21,7 @@
             <app-student-list *ngIf="selectedSection === 'student-list'"></app-student-list>
             <app-test-creation *ngIf="selectedSection === 'test-create'"></app-test-creation>
             <app-test-list *ngIf="selectedSection === 'test-list'"></app-test-list>
+            <app-student-performance *ngIf="selectedSection === 'student-performance'"> </app-student-performance>
         </div>
     </div>
 
@@ -28,8 +29,6 @@
         <app-sidebar (sectionSelected)="onSectionSelected($event)"></app-sidebar>
         <div class="parent-content">
         <app-parent-students *ngIf="selectedSection === 'parent-students' "> </app-parent-students>
-        <!-- <p>Your role: {{ userRole }}</p>
-        <p>Please download and use our app "PvZ".</p> -->
         </div>
     </div>
 </div>

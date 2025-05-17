@@ -1,0 +1,40 @@
+<form *ngIf="form" [formGroup]="form" (ngSubmit)="saveChanges()">
+  <h1>Edit Test</h1>
+
+  <label>Test Name:</label>
+  <input formControlName="testName" />
+
+  <label>Test Duration (minutes):</label>
+  <input type="number" formControlName="testDuration" />
+
+  <label>Teacher ID:</label>
+  <input [value]="teacherUID" disabled />
+
+  <hr />
+
+  <h2>Mini-Game Configurations</h2>
+
+  <div formGroupName="miniGameConfigs">
+    <div *ngFor="let gameKey of objectKeys(form.get('miniGameConfigs')?.value)">
+      <div [formGroupName]="gameKey">
+        <h3>{{ gameKey.replace('_', ' ') | titlecase }}</h3>
+
+        <div *ngFor="let fieldKey of objectKeys(form.get('miniGameConfigs')?.get(gameKey)?.value)">
+          <label>{{ fieldKey | titlecase }}:</label>
+
+          <!-- Input type handling -->
+          <ng-container [ngSwitch]="typeof form.get('miniGameConfigs')?.get(gameKey)?.get(fieldKey)?.value">
+            <input *ngSwitchCase="'string'" type="text" [formControlName]="fieldKey" />
+            <input *ngSwitchCase="'number'" type="number" [formControlName]="fieldKey" />
+            <input *ngSwitchCase="'boolean'" type="checkbox" [formControlName]="fieldKey" />
+            <input *ngSwitchDefault type="text" [formControlName]="fieldKey" />
+          </ng-container>
+        </div>
+
+        <hr />
+      </div>
+    </div>
+  </div>
+
+  <button type="submit">Save Changes</button>
+</form>

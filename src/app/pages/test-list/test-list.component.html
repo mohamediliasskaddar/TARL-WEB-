@@ -1,4 +1,4 @@
-<h2>Your Tests</h2>
+<!-- <h2>Your Tests</h2>
 
 <label>Filter by Grade:</label>
 <select [(ngModel)]="selectedGrade" (change)="applyFilter()">
@@ -6,10 +6,62 @@
   <option *ngFor="let grade of grades" [value]="grade">Grade {{ grade }}</option>
 </select>
 
-<ul>
-  <li *ngFor="let test of filteredTests">
-    <strong>{{test.testName }}</strong> - Grade {{ test.grade }} (⏱ {{ test.testDuration }} mins)
-  </li>
-</ul>
+<div class="test" >
+  <div *ngFor="let test of filteredTests">
+     must add more test info here 
+    <strong>{{test.testName }}</strong> 
+    <p>- Grade {{ test.grade }}</p>
+    <p>(⏱ {{ test.testDuration }} mins)</p>
+    <p> {{ test.isDraft }} </p>
+    <strong>Mini-games:</strong>
+      <ul>
+        <li *ngFor="let game of test.miniGameOrder">{{ game }}</li>
+      </ul>
+  </div>
+</div>
 
 <div *ngIf="filteredTests.length === 0">No tests found.</div>
+class="page-title" -->
+
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+<h2 >Your Tests</h2>
+
+<div class="filter-section">
+  <label for="grade-filter">Filter by Grade:</label>
+  <select id="grade-filter" [(ngModel)]="selectedGrade" (change)="applyFilter()">
+    <option value="">All Grades</option>
+    <option *ngFor="let grade of grades" [value]="grade">Grade {{ grade }}</option>
+  </select>
+</div>
+
+<div class="test-list">
+  <div *ngFor="let test of filteredTests" class="test-card">
+    <h3 class="test-title">{{ test.testName }}</h3>
+    <p class="test-info">Grade <span>{{ test.grade }}</span> &bull; ⏱ {{ test.testDuration }} mins</p>
+    <p class="test-status">
+      <span [ngClass]="{ 'draft': test.isDraft, 'published': !test.isDraft }">
+       {{ test.isDraft ? 'Draft' : 'Published' }}
+      </span>
+    </p>
+
+    <div class="mini-games">
+      <strong>Mini-games:</strong>
+      <ul>
+        <li *ngFor="let game of test.miniGameOrder">{{ game.replace('_', ' ') | titlecase }}</li>
+      </ul>
+    </div>
+    <button (click)="editTest(test.id)"> <span class="material-symbols-outlined">draw</span> </button>
+    <!-- <button (click)="toggleDraftStatus(test)"> {{ test.isDraft ? 'Publish Test' : 'Unpublish Test' }}</button> -->
+    <button (click)="toggleDraftStatus(test)" 
+         [ngClass]="{'publish-button': test.isDraft, 'unpublish-button': !test.isDraft}"
+           title="{{ test.isDraft ? 'Publish Test' : 'Unpublish Test' }}">
+          <span class="material-symbols-outlined"> {{ test.isDraft ? 'upload' : 'schedule_send' }}</span>
+    </button>
+  </div>
+  
+</div>
+
+<div class="empty-message" *ngIf="filteredTests.length === 0">
+  No tests found.
+</div>

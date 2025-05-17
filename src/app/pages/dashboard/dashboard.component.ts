@@ -10,13 +10,14 @@ import { TestCreationComponent } from '../test-creation/test-creation.component'
 import { TestListComponent } from '../test-list/test-list.component';
 import { CreateParentComponent } from '../create-parent/create-parent.component';
 import { ParentStudentsComponent } from '../parent-students/parent-students.component';
+import { StudentPerformanceComponent } from '../student-performance/student-performance.component';
 
 @Component({
   selector: 'app-dashboard',
   imports: [NgIf, NavBarComponent, SidebarComponent, 
     RoleManagementComponent, StudentRegistrationComponent, 
     StudentListComponent, TestCreationComponent, 
-    TestListComponent, CreateParentComponent, ParentStudentsComponent],
+    TestListComponent, CreateParentComponent, ParentStudentsComponent, StudentPerformanceComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
