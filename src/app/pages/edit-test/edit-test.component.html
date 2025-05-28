@@ -1,40 +1,83 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 <form *ngIf="form" [formGroup]="form" (ngSubmit)="saveChanges()">
-  <h1>Edit Test</h1>
+  <h2>Edit Test</h2>
 
-  <label>Test Name:</label>
-  <input formControlName="testName" />
+  <label>
+    Test Name:
+    <input formControlName="testName" />
+  </label>
 
-  <label>Test Duration (minutes):</label>
-  <input type="number" formControlName="testDuration" />
-
-  <label>Teacher ID:</label>
-  <input [value]="teacherUID" disabled />
-
-  <hr />
-
-  <h2>Mini-Game Configurations</h2>
+  <label>
+    Test Duration (minutes):
+    <input type="number" formControlName="testDuration" />
+  </label>
 
   <div formGroupName="miniGameConfigs">
-    <div *ngFor="let gameKey of objectKeys(form.get('miniGameConfigs')?.value)">
-      <div [formGroupName]="gameKey">
-        <h3>{{ gameKey.replace('_', ' ') | titlecase }}</h3>
+    <div *ngFor="let key of test.miniGameOrder">
+      <fieldset [formGroupName]="key">
+        <legend>{{ key | titlecase }}</legend>
 
-        <div *ngFor="let fieldKey of objectKeys(form.get('miniGameConfigs')?.get(gameKey)?.value)">
-          <label>{{ fieldKey | titlecase }}:</label>
+        <label>
+          Min:
+          <input type="number" formControlName="min_number" />
+        </label>
 
-          <!-- Input type handling -->
-          <ng-container [ngSwitch]="typeof form.get('miniGameConfigs')?.get(gameKey)?.get(fieldKey)?.value">
-            <input *ngSwitchCase="'string'" type="text" [formControlName]="fieldKey" />
-            <input *ngSwitchCase="'number'" type="number" [formControlName]="fieldKey" />
-            <input *ngSwitchCase="'boolean'" type="checkbox" [formControlName]="fieldKey" />
-            <input *ngSwitchDefault type="text" [formControlName]="fieldKey" />
-          </ng-container>
+        <label>
+          Max:
+          <input type="number" formControlName="max_number" />
+        </label>
+
+        <label>
+          Required Answers:
+          <input type="number" formControlName="min_required_answers" />
+        </label>
+
+        <label>
+          Number of Questions:
+          <input type="number" formControlName="num_questions" />
+        </label>
+
+        <!-- Specific field: prompt_text for multi_step_problem -->
+        <div *ngIf="key === 'multi_step_problem'">
+          <div *ngIf="form.get(['miniGameConfigs', key, 'prompt_text'])">
+            <label>
+              Prompt:
+              <input formControlName="prompt_text" />
+            </label>
+          </div>
         </div>
 
-        <hr />
-      </div>
+        <!-- Specific field: with_borrowing for vertical_operations -->
+        <div *ngIf="key === 'vertical_operations'">
+          <div *ngIf="form.get(['miniGameConfigs', key, 'with_borrowing'])">
+            <label>
+              <input type="checkbox" formControlName="with_borrowing" />
+              With Borrowing
+            </label>
+          </div>
+        </div>
+
+        <!-- Specific field: steps for multi_step_problem -->
+        <div *ngIf="key === 'multi_step_problem'">
+          <div formArrayName="steps">
+            <div *ngFor="let step of getStepsArray(key).controls; let i = index" [formGroupName]="i">
+              <label>
+                Step {{ i + 1 }} - Question:
+                <input formControlName="quest" />
+              </label>
+              <label>
+                Answer:
+                <input formControlName="answer" />
+              </label>
+            </div>
+          </div>
+        </div>
+
+      </fieldset>
     </div>
   </div>
-
-  <button type="submit">Save Changes</button>
+<div class="button-group">
+  <button type="submit" title="submit changes"><span class="material-symbols-outlined">checklist</span> </button>
+  <button type="button" title="Return to dashboard" (click)="returnDash()"><span class="material-symbols-outlined">undo</span></button>
+</div>
 </form>

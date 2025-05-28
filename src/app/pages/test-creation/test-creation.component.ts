@@ -1,3 +1,4 @@
+// Importation des dépendances nécessaires depuis Angular et Firebase
 import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -8,7 +9,7 @@ import {
   FormArray
 } from '@angular/forms';
 import { Database, ref, set, onValue } from '@angular/fire/database';
-import { CommonModule, KeyValuePipe,KeyValue, NgFor, NgIf, TitleCasePipe } from '@angular/common';
+import { CommonModule, KeyValuePipe, KeyValue, NgFor, NgIf, TitleCasePipe } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import {
@@ -18,6 +19,7 @@ import {
 } from '../../types/soustraction-mini-game-types';
 import { distinctUntilChanged } from 'rxjs';
 
+// Interface représentant la définition d'un mini-jeu
 interface MiniGameDef {
   id: string;
   title: string;
@@ -33,37 +35,39 @@ interface MiniGameDef {
     ReactiveFormsModule,
     NgFor,
     NgIf,
-    KeyValuePipe,
     TitleCasePipe
   ],
   templateUrl: './test-creation.component.html',
   styleUrls: ['./test-creation.component.css']
 })
 export class TestCreationComponent implements OnInit {
+  // Injection des services nécessaires via `inject()`
   private fb = inject(FormBuilder);
   private db = inject(Database);
   private auth = inject(AuthService);
   private http = inject(HttpClient);
 
-  gradeLevels: string[] = [];
-  teacherUID = '';
-  gameDefs: Record<string, any> = {};
-  allMiniGames: MiniGameDef[] = [];
-  availableStudents: { id: string; name: string }[] = [];
+  // Variables utilisées dans le composant
+  gradeLevels: string[] = []; // niveaux scolaires disponibles
+  teacherUID = ''; // UID du professeur connecté
+  gameDefs: Record<string, any> = {}; // définitions brutes des mini-jeux
+  allMiniGames: MiniGameDef[] = []; // liste des mini-jeux filtrés
+  availableStudents: { id: string; name: string }[] = []; // élèves disponibles à affecter au test
 
+  // Définition du formulaire de création de test
   testForm: FormGroup = this.fb.group({
     title: ['', Validators.required],
     classroomId: ['', Validators.required],
     testDuration: [30, [Validators.required, Validators.min(5)]],
     isDraft: [false],
     isSpecial: [false],
-    selectedStudents: this.fb.array<string>([]),
-    selectedMiniGames: this.fb.array<string>([]),
-    miniGameConfigs: this.fb.group({})
+    selectedStudents: this.fb.array<string>([]), // liste des élèves sélectionnés
+    selectedMiniGames: this.fb.array<string>([]), // liste des mini-jeux sélectionnés
+    miniGameConfigs: this.fb.group({}) // configurations spécifiques des mini-jeux
   });
 
   ngOnInit() {
-    // Load teacher grades
+    // --- 1) Récupère l'utilisateur connecté et filtre ses élèves pour récupérer les niveaux scolaires disponibles ---
     this.auth.getCurrentUserWithRole().subscribe(user => {
       if (!user) return;
       this.teacherUID = user.uid;
@@ -76,36 +80,41 @@ export class TestCreationComponent implements OnInit {
             gradesSet.add(`${u.schoolGrade}`);
           }
         });
-        this.gradeLevels = Array.from(gradesSet).sort();
+        this.gradeLevels = Array.from(gradesSet).sort(); // trie des niveaux
       });
     });
 
-    // Load mini-games and react to classroom change
-    this.http.get('JSON/soustraction-mini-games.json').subscribe((data: any) => {
+    // --- 2) Charge les mini-jeux depuis un fichier JSON et configure la logique de filtrage dynamique selon le grade ---
+    this.http.get('JSON/mini-games.json').subscribe((data: any) => {
       this.gameDefs = data.miniGames;
+
+      // Réagit au changement de classe sélectionnée dans le formulaire
       this.testForm.get('classroomId')!
         .valueChanges
         .pipe(distinctUntilChanged())
         .subscribe(val => {
           const grade = Number(val);
-          this.loadStudentsForGrade(grade);
-          this.allMiniGames = this.getFilteredMiniGames(grade);
+          this.loadStudentsForGrade(grade); // charge les élèves correspondant au grade
+          this.allMiniGames = this.getFilteredMiniGames(grade); // filtre les mini-jeux pour le grade
         });
-      // Trigger initial
+
+      // Initialisation avec la première valeur possible
       const initGrade = Number(this.testForm.get('classroomId')!.value ?? this.gradeLevels[0]);
       this.allMiniGames = this.getFilteredMiniGames(initGrade);
     });
   }
 
-  // Getters for template use
+  // Renvoie la liste des IDs des mini-jeux sélectionnés
   get selectedMiniGameIds(): string[] {
     return this.testForm.get('selectedMiniGames')?.value || [];
   }
 
+  // Renvoie la liste des IDs des élèves sélectionnés
   get selectedStudentIds(): string[] {
     return this.testForm.get('selectedStudents')?.value || [];
   }
 
+  // Retourne les mini-jeux compatibles avec un certain grade
   private getFilteredMiniGames(grade: number): MiniGameDef[] {
     return Object.entries(this.gameDefs).map(([id, game]: any) => {
       const gradeConfigs = game.defaultConfig?.gradeConfig || {};
@@ -119,32 +128,92 @@ export class TestCreationComponent implements OnInit {
     });
   }
 
+  // Vérifie si un grade est dans la plage suggérée pour un mini-jeu
   isGradeInRange(range: { min: number; max: number }, grade: number): boolean {
     return grade >= range.min && grade <= range.max;
   }
 
+  // Gestion de l’ajout/retrait d’un mini-jeu sélectionné
+  // onMiniGameToggle(gameId: string, checked: boolean) {
+  //   const mgArray = this.testForm.get('selectedMiniGames') as FormArray;
+  //   const configs = this.testForm.get('miniGameConfigs') as FormGroup;
+  //   if (checked) {
+  //     mgArray.push(new FormControl(gameId)); // ajoute l'ID du mini-jeu sélectionné
+  //     configs.addControl(gameId, this.fb.group(this.buildMiniGameControls(gameId))); // ajoute son formulaire de config
+  //   } else {
+  //     const idx = mgArray.controls.findIndex(c => c.value === gameId);
+  //     if (idx > -1) mgArray.removeAt(idx);
+  //     configs.removeControl(gameId); // supprime sa configuration du formulaire
+  //   }
+  // }
   onMiniGameToggle(gameId: string, checked: boolean) {
-    const mgArray = this.testForm.get('selectedMiniGames') as FormArray;
-    const configs = this.testForm.get('miniGameConfigs') as FormGroup;
-    if (checked) {
-      mgArray.push(new FormControl(gameId));
-      configs.addControl(gameId, this.fb.group(this.buildMiniGameControls(gameId)));
-    } else {
-      const idx = mgArray.controls.findIndex(c => c.value === gameId);
-      if (idx > -1) mgArray.removeAt(idx);
-      configs.removeControl(gameId);
+  const mgArray = this.testForm.get('selectedMiniGames') as FormArray;
+  const configs = this.testForm.get('miniGameConfigs') as FormGroup;
+
+  if (checked) {
+    mgArray.push(new FormControl(gameId));
+    const gameConfigGroup = this.fb.group(this.buildMiniGameControls(gameId));
+    configs.addControl(gameId, gameConfigGroup);
+
+    if (gameId === 'multi_step_problem') {
+      const numQuestionsCtrl = gameConfigGroup.get('num_questions');
+      if (numQuestionsCtrl) {
+        numQuestionsCtrl.valueChanges.subscribe((newCount: number) => {
+          this.updateStepControls(gameConfigGroup, newCount);
+        });
+
+        // Initialisation si num_questions a déjà une valeur
+        const initCount = numQuestionsCtrl.value;
+        if (initCount) {
+          this.updateStepControls(gameConfigGroup, initCount);
+        }
+      }
     }
+
+  } else {
+    const idx = mgArray.controls.findIndex(c => c.value === gameId);
+    if (idx > -1) mgArray.removeAt(idx);
+    configs.removeControl(gameId);
+  }
+}
+////////////////
+private updateStepControls(group: FormGroup, numSteps: number) {
+  // Supprimer les anciens steps
+  Object.keys(group.controls).forEach(key => {
+    if (key.startsWith('step') && (key.endsWith('_question') || key.endsWith('_answer'))) {
+      group.removeControl(key);
+    }
+  });
+
+  // Ajouter les nouveaux
+  for (let i = 1; i <= numSteps; i++) {
+    group.addControl(`step${i}_question`, new FormControl('', Validators.required));
+    group.addControl(`step${i}_answer`, new FormControl('', Validators.required));
   }
 
+  console.log(`Step controls updated for ${numSteps} steps:`, group.controls);
+}
+
+  // Construit dynamiquement les champs de configuration d’un mini-jeu
   private buildMiniGameControls(gameId: string) {
     const game = this.allMiniGames.find(g => g.id === gameId)!;
     const fields = game.configTemplate || {};
     return Object.entries(fields).reduce((acc, [k, v]) => {
-      acc[k] = new FormControl(v, Validators.required);
+      acc[k] = new FormControl(v, Validators.required); // chaque config devient un champ requis
       return acc;
     }, {} as { [key: string]: FormControl });
   }
 
+  // Récupère dynamiquement les clés de configuration pour un mini-jeu donné
+  getControlKeys(gameId: string): string[] {
+    const group = this.testForm.get(['miniGameConfigs', gameId]);
+    if (group && group instanceof FormGroup) {
+      return Object.keys(group.controls);
+    }
+    return [];
+  }
+
+  // Charge les élèves pour un grade spécifique
   private loadStudentsForGrade(grade: number) {
     const usersRef = ref(this.db, 'users');
     onValue(usersRef, snap => {
@@ -159,6 +228,7 @@ export class TestCreationComponent implements OnInit {
     });
   }
 
+  // Gère l’ajout/retrait d’un élève sélectionné
   onStudentToggle(id: string, checked: boolean) {
     const arr = this.testForm.get('selectedStudents') as FormArray;
     if (checked) {
@@ -169,25 +239,64 @@ export class TestCreationComponent implements OnInit {
     }
   }
 
-  submitTest() {
-    if (this.testForm.invalid) return;
-    const v = this.testForm.value;
-    const testId = `test_${Date.now()}`;
-    const testObject: any = {
-      testName: v.title,
-      teacherId: this.teacherUID,
-      grade: v.classroomId,
-      testDuration: v.testDuration,
-      isDraft: v.isDraft,
-      isSpecial: v.isSpecial,
-      miniGameOrder: v.selectedMiniGames,
-      miniGameConfigs: v.miniGameConfigs,
-      createdAt: Date.now()
-    };
-    if (v.isSpecial) testObject.concernedStudents = v.selectedStudents;
+  // Soumission finale du test
+ submitTest() {
+  if (this.testForm.invalid) return;
 
-    set(ref(this.db, `tests/${testId}`), testObject)
-      .then(() => alert('Test saved successfully!'))
-      .catch(err => console.error('Save failed', err));
+  const v = this.testForm.value;
+  const testId = `test_${Date.now()}`;
+
+  // 1) Clone profond pour ne pas muter le FormGroup
+  const finalConfigs = JSON.parse(JSON.stringify(v.miniGameConfigs));
+
+  // 2) Si multi_step_problem sélectionné, regrouper les steps
+  if (finalConfigs.multi_step_problem) {
+    const config = finalConfigs.multi_step_problem as any;
+    const steps: Record<number, { quest: string; answer: any }> = {};
+    let i = 1;
+    while (config[`step${i}_question`] !== undefined && config[`step${i}_answer`] !== undefined) {
+      steps[i - 1] = {
+        quest: config[`step${i}_question`],
+        answer: config[`step${i}_answer`]
+      };
+      delete config[`step${i}_question`];
+      delete config[`step${i}_answer`];
+      i++;
+    }
+    console.log('Grouped steps:', steps);////////////////testting point 
+    config.steps = steps;
   }
+
+  // 3) Construire l’objet à envoyer
+  const testObject: any = {
+    testName:        v.title,
+    teacherId:       this.teacherUID,
+    grade:           v.classroomId,
+    testDuration:    v.testDuration,
+    isDraft:         v.isDraft,
+    isSpecial:       v.isSpecial,
+    miniGameOrder:   v.selectedMiniGames,
+    miniGameConfigs: finalConfigs,   
+    createdAt:       Date.now()
+  };
+
+  if (v.isSpecial) {
+    testObject.concernedStudents = v.selectedStudents;
+  }
+
+  // 4) Envoi à Firebase
+  set(ref(this.db, `tests/${testId}`), testObject)
+    .then(() => alert('Test saved successfully!'))
+    .catch(err => console.error('Save failed', err));
+}
+
+  //added 
+
+  getStepIndexes(gameId: string): number[] {
+  const config = this.testForm.get('miniGameConfigs')?.get(gameId);
+  if (!config) return [];
+
+  const numQuestions = config.get('num_questions')?.value || 0;
+  return Array.from({ length: numQuestions }, (_, i) => i);
+}
 }

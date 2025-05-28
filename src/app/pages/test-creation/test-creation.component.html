@@ -6,35 +6,7 @@
   <label>Title</label>
   <input type="text" formControlName="title" placeholder="Test title" />
 
-  <!-- Draft -->
-  <label>
-    <input type="checkbox" formControlName="isDraft" />
-    Make the test a draft
-  </label>
-
-  <!-- Special -->
-  <label>
-    <input type="checkbox" formControlName="isSpecial" />
-    Special test
-  </label>
-
-  <!-- Student selection (only if special) -->
-  <div *ngIf="testForm.get('isSpecial')!.value">
-    <label>Select students:</label>
-    <div *ngFor="let stu of availableStudents">
-      <label>
-        <input
-          #cb
-          type="checkbox"
-          [checked]="selectedStudentIds.includes(stu.id)"
-          (change)="onStudentToggle(stu.id, $any(cb).checked)"
-        />
-        {{ stu.name }}
-      </label>
-    </div>
-  </div>
-
-  <!-- Classroom -->
+  <!-- Classroom selector -->
   <label>Classroom</label>
   <select formControlName="classroomId">
     <option *ngFor="let grade of gradeLevels" [value]="grade">
@@ -42,21 +14,50 @@
     </option>
   </select>
 
-  <!-- Duration -->
+  <!-- Draft toggle -->
+  <label>
+    <input type="checkbox" formControlName="isDraft" />
+    Make the test a draft
+  </label>
+
+  <!-- Special-test toggle -->
+  <label>
+    <input type="checkbox" formControlName="isSpecial" />
+    Special test
+  </label>
+
+  <!-- Student selection, only when special -->
+  <div *ngIf="testForm.get('isSpecial')!.value">
+    <label>Select students:</label>
+    <div *ngFor="let stu of availableStudents">
+      <label>
+        <input
+          #stuCb
+          type="checkbox"
+          [checked]="selectedStudentIds.includes(stu.id)"
+          (change)="onStudentToggle(stu.id, stuCb.checked)"
+        />
+        {{ stu.name }}
+      </label>
+    </div>
+  </div>
+
+  <!-- Test duration -->
   <label>Test Duration (minutes)</label>
   <input type="number" formControlName="testDuration" />
 
   <hr />
 
-  <!-- Mini-Games selection -->
+  <!-- Mini-game selection -->
   <label>Select Mini-Games</label>
   <div *ngFor="let game of allMiniGames">
     <div *ngIf="isGradeInRange(game.suggestedGradeRange, testForm.get('classroomId')!.value)">
       <label>
         <input
+          #gameCb
           type="checkbox"
           [checked]="selectedMiniGameIds.includes(game.id)"
-          (change)="onMiniGameToggle(game.id, $any($event.target).checked)"
+          (change)="onMiniGameToggle(game.id, gameCb.checked)"
         />
         {{ game.title }}
       </label>
@@ -65,21 +66,41 @@
 
   <hr />
 
-  <!-- Mini-Game Configs -->
+  <!-- Mini-game configurations -->
   <div formGroupName="miniGameConfigs">
     <div *ngFor="let gameId of selectedMiniGameIds">
       <h4>{{ gameId.replace('_', ' ') | titlecase }} Configuration</h4>
       <div [formGroupName]="gameId">
-        <div *ngFor="let kv of testForm.get('miniGameConfigs')!.get(gameId)!.value | keyvalue">
-          <label>{{ kv.key }}</label>
+
+        <!-- General config keys -->
+        <div *ngFor="let controlKey of getControlKeys(gameId)">
+          <label>{{ controlKey }}</label>
+          <input type="text" [formControlName]="controlKey" />
+        </div>
+
+        <!-- Dynamic steps for multi_step_problem -->
+        <!-- <div *ngIf="gameId === 'multi_step_problem'">
+        <div *ngFor="let i of getStepIndexes(gameId)">
+          <label>Step {{ i + 1 }} – Question</label>
           <input
             type="text"
-            [formControlName]="$any(kv.key)"
+            [formControlName]="'step' + (i + 1) + '_question'"
+            placeholder="Question {{ i + 1 }}"
+          />
+
+          <label>Step {{ i + 1 }} – Answer</label>
+          <input
+            type="text"
+            [formControlName]="'step' + (i + 1) + '_answer'"
+            placeholder="Answer {{ i + 1 }}"
           />
         </div>
+      </div> -->
+
       </div>
     </div>
   </div>
 
+  <!-- Submit -->
   <button type="submit">Save Test</button>
 </form>
