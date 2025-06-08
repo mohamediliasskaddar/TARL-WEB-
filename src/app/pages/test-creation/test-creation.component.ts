@@ -1,4 +1,3 @@
-// Importation des dépendances nécessaires depuis Angular et Firebase
 import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -18,7 +17,7 @@ import {
   MultiStepProblemConfig
 } from '../../types/soustraction-mini-game-types';
 import { distinctUntilChanged } from 'rxjs';
-
+import { log } from 'console';
 // Interface représentant la définition d'un mini-jeu
 interface MiniGameDef {
   id: string;
@@ -26,7 +25,6 @@ interface MiniGameDef {
   suggestedGradeRange: { min: number; max: number };
   configTemplate: Partial<FindCompositionsConfig & VerticalOperationsConfig & MultiStepProblemConfig>;
 }
-
 @Component({
   selector: 'app-test-creation',
   standalone: true,
@@ -53,6 +51,8 @@ export class TestCreationComponent implements OnInit {
   gameDefs: Record<string, any> = {}; // définitions brutes des mini-jeux
   allMiniGames: MiniGameDef[] = []; // liste des mini-jeux filtrés
   availableStudents: { id: string; name: string }[] = []; // élèves disponibles à affecter au test
+  quickTemplateKeys: string[] = [];
+  currentQuickIndex = 0;
 
   // Définition du formulaire de création de test
   testForm: FormGroup = this.fb.group({
@@ -85,8 +85,12 @@ export class TestCreationComponent implements OnInit {
     });
 
     // --- 2) Charge les mini-jeux depuis un fichier JSON et configure la logique de filtrage dynamique selon le grade ---
-    this.http.get('JSON/mini-games.json').subscribe((data: any) => {
+    this.http.get('JSON/elalah.json').subscribe((data: any) => {
       this.gameDefs = data.miniGames;
+      // addeeed
+        const quickDefs = data.miniGames.quick_multi_step_problem.defaultConfig.gradeConfig;
+        this.quickTemplateKeys = Object.keys(quickDefs);    // ['m_1','m_2','m_3', …]
+        this.currentQuickIndex = 0;
 
       // Réagit au changement de classe sélectionnée dans le formulaire
       this.testForm.get('classroomId')!
@@ -123,7 +127,7 @@ export class TestCreationComponent implements OnInit {
         id,
         title: game.title?.en || id,
         suggestedGradeRange: game.suggestedGradeRange,
-        configTemplate: gradeConfigs[grade] || fallback
+        configTemplate: gradeConfigs[grade] || fallback 
       };
     });
   }
@@ -133,49 +137,81 @@ export class TestCreationComponent implements OnInit {
     return grade >= range.min && grade <= range.max;
   }
 
-  // Gestion de l’ajout/retrait d’un mini-jeu sélectionné
-  // onMiniGameToggle(gameId: string, checked: boolean) {
-  //   const mgArray = this.testForm.get('selectedMiniGames') as FormArray;
-  //   const configs = this.testForm.get('miniGameConfigs') as FormGroup;
-  //   if (checked) {
-  //     mgArray.push(new FormControl(gameId)); // ajoute l'ID du mini-jeu sélectionné
-  //     configs.addControl(gameId, this.fb.group(this.buildMiniGameControls(gameId))); // ajoute son formulaire de config
-  //   } else {
-  //     const idx = mgArray.controls.findIndex(c => c.value === gameId);
-  //     if (idx > -1) mgArray.removeAt(idx);
-  //     configs.removeControl(gameId); // supprime sa configuration du formulaire
-  //   }
-  // }
   onMiniGameToggle(gameId: string, checked: boolean) {
   const mgArray = this.testForm.get('selectedMiniGames') as FormArray;
   const configs = this.testForm.get('miniGameConfigs') as FormGroup;
 
-  if (checked) {
-    mgArray.push(new FormControl(gameId));
-    const gameConfigGroup = this.fb.group(this.buildMiniGameControls(gameId));
-    configs.addControl(gameId, gameConfigGroup);
-
-    if (gameId === 'multi_step_problem') {
-      const numQuestionsCtrl = gameConfigGroup.get('num_questions');
-      if (numQuestionsCtrl) {
-        numQuestionsCtrl.valueChanges.subscribe((newCount: number) => {
-          this.updateStepControls(gameConfigGroup, newCount);
-        });
-
-        // Initialisation si num_questions a déjà une valeur
-        const initCount = numQuestionsCtrl.value;
-        if (initCount) {
-          this.updateStepControls(gameConfigGroup, initCount);
-        }
-      }
-    }
-
-  } else {
+  if (!checked) {
+    // uncheck: remove control
     const idx = mgArray.controls.findIndex(c => c.value === gameId);
     if (idx > -1) mgArray.removeAt(idx);
     configs.removeControl(gameId);
+    return;
+  }
+
+  // checked = true: add control & group
+  mgArray.push(new FormControl(gameId));
+
+  // —— BRANCH HERE ——  
+  if (gameId === 'quick_multi_step_problem') {
+    // 1) get the JSON template config
+    const template = (this.allMiniGames.find(g => g.id === gameId)!.configTemplate as any);
+
+    // 2) build controls from JSON, but force 'steps' to be FormArray
+    const controls: { [k: string]: any } = this.buildMiniGameControls(gameId);
+    delete controls['steps'];
+    controls['steps'] = this.fb.array<FormGroup>([]);
+
+    // 3) create the group
+    const gameConfigGroup = this.fb.group(controls);
+    configs.addControl(gameId, gameConfigGroup);
+
+    // 4) populate its steps
+    this.buildStepsFromTemplate(gameConfigGroup, template);
+  }
+  else {
+    // NON-quick path: generic
+    const controls = this.buildMiniGameControls(gameId);
+    // ensure generic path stays as before
+    const gameConfigGroup = this.fb.group(controls);
+    configs.addControl(gameId, gameConfigGroup);
+
+    if (gameId === 'multi_step_problem') {
+      const numQuestionsCtrl = gameConfigGroup.get('num_questions')!;
+      numQuestionsCtrl.valueChanges.subscribe((newCount: number) => {
+        this.updateStepControls(gameConfigGroup, newCount);
+      });
+      const initCount = numQuestionsCtrl.value as number;
+      if (initCount) this.updateStepControls(gameConfigGroup, initCount);
+    }
   }
 }
+
+// added
+private buildStepsFromTemplate(group: FormGroup, tpl: any) {
+  const stepsArray = group.get('steps') as FormArray;
+  console.log(stepsArray);
+  // clear old
+  while (stepsArray.length) stepsArray.removeAt(0);
+
+  // iterate JSON keys "0","1",…
+  Object.keys(tpl.steps)
+    .sort((a, b) => +a - +b)
+    .forEach(key => {
+      const entry = tpl.steps[key];
+      stepsArray.push(
+        this.fb.group({
+          question: new FormControl(entry.question, Validators.required),
+          answer:   new FormControl(entry.answer,   Validators.required)
+        })
+      );
+    });
+}
+getStepsArray(gameId: string): FormArray {
+  return this.testForm.get(['miniGameConfigs', gameId, 'steps']) as FormArray;
+}
+
+
 ////////////////
 private updateStepControls(group: FormGroup, numSteps: number) {
   // Supprimer les anciens steps
@@ -190,7 +226,6 @@ private updateStepControls(group: FormGroup, numSteps: number) {
     group.addControl(`step${i}_question`, new FormControl('', Validators.required));
     group.addControl(`step${i}_answer`, new FormControl('', Validators.required));
   }
-
   console.log(`Step controls updated for ${numSteps} steps:`, group.controls);
 }
 
@@ -203,7 +238,6 @@ private updateStepControls(group: FormGroup, numSteps: number) {
       return acc;
     }, {} as { [key: string]: FormControl });
   }
-
   // Récupère dynamiquement les clés de configuration pour un mini-jeu donné
   getControlKeys(gameId: string): string[] {
     const group = this.testForm.get(['miniGameConfigs', gameId]);
@@ -212,6 +246,7 @@ private updateStepControls(group: FormGroup, numSteps: number) {
     }
     return [];
   }
+  //////////adeed 
 
   // Charge les élèves pour un grade spécifique
   private loadStudentsForGrade(grade: number) {
@@ -263,9 +298,18 @@ private updateStepControls(group: FormGroup, numSteps: number) {
       delete config[`step${i}_answer`];
       i++;
     }
-    console.log('Grouped steps:', steps);////////////////testting point 
+    console.log('Steps:', steps);
     config.steps = steps;
   }
+
+   // --- NEW: if quick variant is used, rename it to the real key ---
+  if (finalConfigs.quick_multi_step_problem) {
+    finalConfigs.multi_step_problem = finalConfigs.quick_multi_step_problem;
+    delete finalConfigs.quick_multi_step_problem;
+  }
+
+  // Also normalize the miniGameOrder array:
+  const normalizedOrder = v.selectedMiniGames.map((id: string) =>  id === 'quick_multi_step_problem' ? 'multi_step_problem' : id );
 
   // 3) Construire l’objet à envoyer
   const testObject: any = {
@@ -275,7 +319,7 @@ private updateStepControls(group: FormGroup, numSteps: number) {
     testDuration:    v.testDuration,
     isDraft:         v.isDraft,
     isSpecial:       v.isSpecial,
-    miniGameOrder:   v.selectedMiniGames,
+    miniGameOrder:   normalizedOrder,
     miniGameConfigs: finalConfigs,   
     createdAt:       Date.now()
   };
@@ -283,15 +327,11 @@ private updateStepControls(group: FormGroup, numSteps: number) {
   if (v.isSpecial) {
     testObject.concernedStudents = v.selectedStudents;
   }
-
   // 4) Envoi à Firebase
   set(ref(this.db, `tests/${testId}`), testObject)
     .then(() => alert('Test saved successfully!'))
     .catch(err => console.error('Save failed', err));
-}
-
-  //added 
-
+} 
   getStepIndexes(gameId: string): number[] {
   const config = this.testForm.get('miniGameConfigs')?.get(gameId);
   if (!config) return [];
@@ -299,4 +339,41 @@ private updateStepControls(group: FormGroup, numSteps: number) {
   const numQuestions = config.get('num_questions')?.value || 0;
   return Array.from({ length: numQuestions }, (_, i) => i);
 }
+
+get multiStepSelected(): boolean {  return this.selectedMiniGameIds.includes('multi_step_problem'); }
+get quickMultiStepSelected(): boolean {  return this.selectedMiniGameIds.includes('quick_multi_step_problem'); }
+
+prevQuickTemplate() {
+  if (!this.quickTemplateKeys.length) return;
+  this.currentQuickIndex =
+    this.currentQuickIndex > 0
+      ? this.currentQuickIndex - 1
+      : this.quickTemplateKeys.length - 1;
+  this.loadQuickTemplate();
 }
+
+nextQuickTemplate() {
+  if (!this.quickTemplateKeys.length) return;
+  this.currentQuickIndex =
+    (this.currentQuickIndex + 1) % this.quickTemplateKeys.length;
+  this.loadQuickTemplate();
+}
+private loadQuickTemplate() {
+  const key = this.quickTemplateKeys[this.currentQuickIndex];
+  const tpl = this.gameDefs['quick_multi_step_problem'].defaultConfig.gradeConfig[key];
+  // Clear the current quick form group, then
+  const group = this.testForm.get(['miniGameConfigs','quick_multi_step_problem']) as FormGroup;
+  // 1) Patch top-level fields:
+  ['prompt_text','num_questions','min_number','max_number','min_required_answers'].forEach(f => {
+    if (tpl[f] !== undefined) group.get(f)?.setValue(tpl[f]);
+  });
+  // 2) Rebuild the FormArray of steps:
+  this.buildStepsFromTemplate(group, tpl);
+}
+
+
+
+
+
+}
+

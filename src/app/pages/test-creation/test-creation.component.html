@@ -1,5 +1,4 @@
 <h2>Create a New Test</h2>
-
 <form [formGroup]="testForm" (ngSubmit)="submitTest()">
 
   <!-- Title -->
@@ -49,22 +48,57 @@
   <hr />
 
   <!-- Mini-game selection -->
-  <label>Select Mini-Games</label>
-  <div *ngFor="let game of allMiniGames">
-    <div *ngIf="isGradeInRange(game.suggestedGradeRange, testForm.get('classroomId')!.value)">
+<label>Select Mini-Games</label>
+<div *ngFor="let game of allMiniGames">
+  <div *ngIf="isGradeInRange(game.suggestedGradeRange, testForm.get('classroomId')!.value)">
+
+    <!-- Multi-Step Problem -->
+    <div *ngIf="game.id === 'multi_step_problem'">
       <label>
         <input
-          #gameCb
+          #cbMs
           type="checkbox"
-          [checked]="selectedMiniGameIds.includes(game.id)"
-          (change)="onMiniGameToggle(game.id, gameCb.checked)"
+          [checked]="selectedMiniGameIds.includes('multi_step_problem')"
+          (change)="onMiniGameToggle('multi_step_problem', cbMs.checked)"
+          [disabled]="selectedMiniGameIds.includes('quick_multi_step_problem')"
         />
         {{ game.title }}
       </label>
     </div>
-  </div>
 
-  <hr />
+    <!-- Quick Multi-Step Problem -->
+    <div *ngIf="game.id === 'quick_multi_step_problem'">
+      <button type="button" (click)="prevQuickTemplate()" [disabled]="!quickTemplateKeys.length">← Prev</button>
+      <button type="button" (click)="nextQuickTemplate()" [disabled]="!quickTemplateKeys.length">Next →</button>
+      <span>Template {{ currentQuickIndex + 1 }} / {{ quickTemplateKeys.length }}</span>
+      <label>
+        <input
+          #cbQms
+          type="checkbox"
+          [checked]="selectedMiniGameIds.includes('quick_multi_step_problem')"
+          (change)="onMiniGameToggle('quick_multi_step_problem', cbQms.checked)"
+          [disabled]="selectedMiniGameIds.includes('multi_step_problem')"
+        />
+        {{ game.title }}
+      </label>
+    </div>
+
+    <!-- All the other games -->
+    <div *ngIf="game.id !== 'multi_step_problem' && game.id !== 'quick_multi_step_problem'">
+      <label>
+        <input
+          #cbGeneric
+          type="checkbox"
+          [checked]="selectedMiniGameIds.includes(game.id)"
+          (change)="onMiniGameToggle(game.id, cbGeneric.checked)"
+        />
+        {{ game.title }}
+      </label>
+    </div>
+
+  </div>
+</div>
+ <hr />
 
   <!-- Mini-game configurations -->
   <div formGroupName="miniGameConfigs">
@@ -74,32 +108,35 @@
 
         <!-- General config keys -->
         <div *ngFor="let controlKey of getControlKeys(gameId)">
+          <ng-container *ngIf="controlKey !== 'steps'">
           <label>{{ controlKey }}</label>
           <input type="text" [formControlName]="controlKey" />
+          </ng-container>
         </div>
 
-        <!-- Dynamic steps for multi_step_problem -->
-        <!-- <div *ngIf="gameId === 'multi_step_problem'">
-        <div *ngFor="let i of getStepIndexes(gameId)">
-          <label>Step {{ i + 1 }} – Question</label>
-          <input
-            type="text"
-            [formControlName]="'step' + (i + 1) + '_question'"
-            placeholder="Question {{ i + 1 }}"
-          />
+        <!-- ─── QUICK MULTI-STEP STEPS ─── -->
+        <ng-container *ngIf="gameId === 'quick_multi_step_problem'">
+          <div formArrayName="steps">
+            <div
+              *ngFor="let stepCtrl of getStepsArray(gameId).controls; let idx = index"
+              [formGroupName]="idx"
+            >
+              <label>Question {{ idx + 1 }}</label>
+              <input type="text" formControlName="question" />
 
-          <label>Step {{ i + 1 }} – Answer</label>
-          <input
-            type="text"
-            [formControlName]="'step' + (i + 1) + '_answer'"
-            placeholder="Answer {{ i + 1 }}"
-          />
-        </div>
-      </div> -->
+              <label>Answer {{ idx + 1 }}</label>
+              <input type="text" formControlName="answer" />
+    </div>
+  </div>
+</ng-container>
+
+        <!-- ──────────────────────────────── -->
 
       </div>
     </div>
   </div>
+
+
 
   <!-- Submit -->
   <button type="submit">Save Test</button>
