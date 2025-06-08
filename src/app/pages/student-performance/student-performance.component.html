@@ -1,7 +1,89 @@
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
 <div class="student-performance">
-    <h2>student-performance component works</h2>
+    <h2 >Student result </h2>
+  <!-- 1) Select a Student -->
+  <section class="selector">
+    <label for="studentSelect">Select Student:</label>
+    <select id="studentSelect" (change)="onStudentChange($any($event.target).value)">
+      <option value="" disabled selected>-- Choose a student --</option>
+      <option *ngFor="let s of students" [value]="s.uid">
+        {{ s.firstName }} {{ s.lastName }}
+      </option>
+    </select>
+  </section>
 
+  <!-- 2) Select a Test -->
+  <section class="selector" *ngIf="tests.length">
+    <label for="testSelect">Select Test:</label>
+    <select id="testSelect" (change)="onTestChange($any($event.target).value)">
+      <option value="" disabled selected>-- Choose a test --</option>
+      <option *ngFor="let t of tests" [value]="t.testID">
+        {{ t.testID }} 
+        <!-- CASTING TO TITLE  -->
+      </option>
+    </select>
+  </section>
 
+  <!-- 3) Test Summary -->
+  <section class="summary" *ngIf="selectedTest">
+    <h3>{{ selectedTest.title }} Grade : {{ selectedTest.grade }}</h3>
+    <h3>{{ selectedTest.title }}  type d'operation : {{ selectedTest.type }}</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Mini-Game</th>
+          <th>Questions</th>
+          <th>Correct</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of summary">
+          <td>{{ row.id.replace('_',' ') | titlecase }}</td>
+          <td>{{ row.total }}</td>
+          <td>{{ row.correct }}</td>
+          <td>
+            <span [class.passed]="row.passed" [class.failed]="!row.passed">
+              {{ row.passed ? 'Passed' : 'Failed' }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 
+  <!-- 4) Mini-Game Details -->
+  <section class="details" *ngIf="selectedTest">
+  <div *ngFor="let gameRow of summary">
+    <h4>{{ gameRow.id.replace('_',' ') | titlecase }}</h4>
+
+    <!-- 1) Question cards -->
+    <ng-container *ngFor="let entry of objectEntries(selectedTest.miniGames[gameRow.id])">
+      <div
+        *ngIf="entry[0] !== 'isPassed'"
+        class="question-card"
+        [class.correct]="entry[1].isCorrect"
+        [class.incorrect]="!entry[1].isCorrect"
+      >
+        <p><strong>Question:</strong> {{ entry[1].question }}</p>
+        <p>
+          <strong>Student answer:</strong> {{ entry[1].answer }}
+          <!-- <span *ngIf="entry[1].isCorrect">✔️</span>
+          <span *ngIf="!entry[1].isCorrect">❌</span> -->
+        </p>
+      </div>
+    </ng-container>
+
+    <!-- 2) Overall mini-game status -->
+    <p class="mini-game-status">
+      <strong>Status:</strong>
+      <span [class.passed]="gameRow.passed" [class.failed]="!gameRow.passed">
+        {{ gameRow.passed ? 'Passed' : 'Failed' }}
+      </span>
+    </p>
+
+  </div>
+</section>
 
 </div>

@@ -262,7 +262,6 @@ private updateStepControls(group: FormGroup, numSteps: number) {
         .map(([key, u]: any) => ({ id: key, name: `${u.firstName} ${u.lastName}` }));
     });
   }
-
   // Gère l’ajout/retrait d’un élève sélectionné
   onStudentToggle(id: string, checked: boolean) {
     const arr = this.testForm.get('selectedStudents') as FormArray;
@@ -273,7 +272,6 @@ private updateStepControls(group: FormGroup, numSteps: number) {
       if (idx > -1) arr.removeAt(idx);
     }
   }
-
   // Soumission finale du test
  submitTest() {
   if (this.testForm.invalid) return;

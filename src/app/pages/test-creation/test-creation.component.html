@@ -68,9 +68,7 @@
 
     <!-- Quick Multi-Step Problem -->
     <div *ngIf="game.id === 'quick_multi_step_problem'">
-      <button type="button" (click)="prevQuickTemplate()" [disabled]="!quickTemplateKeys.length">← Prev</button>
-      <button type="button" (click)="nextQuickTemplate()" [disabled]="!quickTemplateKeys.length">Next →</button>
-      <span>Template {{ currentQuickIndex + 1 }} / {{ quickTemplateKeys.length }}</span>
+      
       <label>
         <input
           #cbQms
@@ -95,7 +93,6 @@
         {{ game.title }}
       </label>
     </div>
-
   </div>
 </div>
  <hr />
@@ -104,6 +101,18 @@
   <div formGroupName="miniGameConfigs">
     <div *ngFor="let gameId of selectedMiniGameIds">
       <h4>{{ gameId.replace('_', ' ') | titlecase }} Configuration</h4>
+              <!-- ← Précédent / Suivant pour quick_multi_step_problem -->
+        <ng-container *ngIf="gameId==='quick_multi_step_problem'">
+          <button type="button" (click)="prevQuickTemplate()" [disabled]="!quickTemplateKeys.length">
+            ← Précédent
+          </button>
+          <button type="button" (click)="nextQuickTemplate()" [disabled]="!quickTemplateKeys.length">
+            Suivant →
+          </button>
+          <span>
+            Template {{ currentQuickIndex + 1 }} / {{ quickTemplateKeys.length }}
+          </span>
+        </ng-container>
       <div [formGroupName]="gameId">
 
         <!-- General config keys -->
@@ -115,20 +124,20 @@
         </div>
 
         <!-- ─── QUICK MULTI-STEP STEPS ─── -->
-        <ng-container *ngIf="gameId === 'quick_multi_step_problem'">
-          <div formArrayName="steps">
-            <div
-              *ngFor="let stepCtrl of getStepsArray(gameId).controls; let idx = index"
-              [formGroupName]="idx"
-            >
-              <label>Question {{ idx + 1 }}</label>
-              <input type="text" formControlName="question" />
+            <ng-container *ngIf="gameId === 'quick_multi_step_problem'">
+              <div formArrayName="steps">
+                <div
+                  *ngFor="let stepCtrl of getStepsArray(gameId).controls; let idx = index"
+                  [formGroupName]="idx"
+                >
+                  <label>Question {{ idx + 1 }}</label>
+                  <input type="text" formControlName="question" />
 
-              <label>Answer {{ idx + 1 }}</label>
-              <input type="text" formControlName="answer" />
-    </div>
-  </div>
-</ng-container>
+                  <label>Answer {{ idx + 1 }}</label>
+                  <input type="text" formControlName="answer" />
+                </div>
+              </div>
+            </ng-container>
 
         <!-- ──────────────────────────────── -->
 
