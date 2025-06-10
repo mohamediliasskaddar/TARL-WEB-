@@ -52,12 +52,14 @@ class="page-title" -->
       </ul>
     </div>
     <button (click)="editTest(test.id)"> <span class="material-symbols-outlined">draw</span> </button>
-    <!-- <button (click)="toggleDraftStatus(test)"> {{ test.isDraft ? 'Publish Test' : 'Unpublish Test' }}</button> -->
     <button (click)="toggleDraftStatus(test)" 
          [ngClass]="{'publish-button': test.isDraft, 'unpublish-button': !test.isDraft}"
            title="{{ test.isDraft ? 'Publish Test' : 'Unpublish Test' }}">
           <span class="material-symbols-outlined"> {{ test.isDraft ? 'upload' : 'schedule_send' }}</span>
     </button>
+    <button (click)="deleteTest(test)"><span class="material-symbols-outlined">delete</span></button>
+    
+
   </div>
   
 </div>

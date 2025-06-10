@@ -71,7 +71,7 @@ export class EditTestComponent implements OnInit {
             this.fb.array(
               val.steps.map((step: any) =>
                 this.fb.group({
-                  quest: [step.quest],
+                  question: [step.question],
                   answer: [step.answer],
                 })
               )

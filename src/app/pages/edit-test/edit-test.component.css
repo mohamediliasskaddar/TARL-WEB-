@@ -115,3 +115,24 @@ h2::after {
   margin: 0.5rem auto 0;
   border-radius: 3px;
 }
+/* Make each label+input pair stack vertically and use full width */
+form label {
+  display: block;
+  margin-bottom: 0.75rem; /* space between fields */
+}
+
+/* Let inputs expand */
+form input[type="text"],
+form input[type="number"] {
+  width: 100%;
+  box-sizing: border-box;  /* include padding in width */
+  max-width: 500px;        /* or whatever maximum makes sense */
+}
+
+/* Optionally, give your fieldsets some breathing room */
+fieldset {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

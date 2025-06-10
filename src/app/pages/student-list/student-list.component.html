@@ -24,6 +24,7 @@
           <td>{{ student.gender }}</td>
           <td>
             <button (click)="unlinkStudent(student.uid)">Unlink</button>
+            <button (click)="downloadPDF(student.uid)">pdf</button>
           </td>
         </tr>
       </tbody>

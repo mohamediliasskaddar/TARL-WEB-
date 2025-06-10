@@ -1,113 +1,3 @@
-/* 
-.test{
-  border: solide black ;
-}
-h2 {
-  font-size: 1.5rem;
-  margin-bottom: 16px;
-  color: #121212; /* Dark text for the heading 
-  text-align: center;
-  font-weight: 600;
-  position: relative;
-}
-
-h2::after {
-  content: "";
-  display: block;
-  width: 40px;
-  height: 3px;
-  background: linear-gradient(to right, #333333, #888888);
-  margin: 0.5rem auto 0;
-  border-radius: 3px;
-}
-
-/* Label styling 
-label {
-  font-weight: 600;
-  margin-right: 8px;
-  color: black;
-  font-size: 0.95rem;
-}
-
-/* Select input styling 
-select {
-  padding: 8px 12px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  margin-bottom: 20px;
-  width: 25%;
-  box-sizing: border-box;
-  color: #121212;
-}
-
-select:focus {
-  outline: none;
-  border-color: #333333;
-  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-}
-
-/* List styling 
-ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-li {
-  background: #f9f9f9;
-  border: 1px solid #e0e0e0;
-  margin-bottom: 10px;
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 1rem;
-  color: #2c3e50;
-  display: flex;
-  align-items: center;
-  transition: all 0.3s ease;
-}
-
-li:hover {
-  background: #f5f5f5;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-li strong {
-  color: black;
- 
-  font-weight: 700;
-}
-
-
-div[ng-reflect-ng-if="true"] {
-  margin-top: 20px;
-  font-style: italic;
-  color: #888;
-  text-align: center;
-}
-li .icon {
-  margin-right: 12px; 
-}
-
-
-@media (max-width: 768px) {
-  select {
-    font-size: 16px;
-    padding: 10px 14px;
-  }
-
-  li {
-    font-size: 14px;
-    padding: 10px 14px;
-  }
-}
-select {
-    padding: 6px 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    margin-bottom: 20px;
-  } */ 
 
   /* General page styling */
 body {
@@ -235,7 +125,8 @@ button {
   color: white;
   /* border: none; */
   border-radius: 4px;
-  padding: 0.5rem ; 
+  padding: 0.2rem 0.1rem ; 
+  
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;

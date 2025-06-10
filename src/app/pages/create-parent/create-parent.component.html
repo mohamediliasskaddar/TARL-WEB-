@@ -27,7 +27,10 @@
       <div class="form-group">
         <label>Generated Password:</label>
         <input type="text" [(ngModel)]="parentPassword" readonly />
-        <button type="button" (click)="generatePassword()" title="Regenerate password">🔁</button>
+        <button type="button" (click)="generatePassword()" title="Regenerate password">
+          <span class="material-symbols-outlined">cycle
+          </span>
+        </button>
       </div>
     </div>
   

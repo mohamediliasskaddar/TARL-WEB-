@@ -274,7 +274,10 @@ private updateStepControls(group: FormGroup, numSteps: number) {
   }
   // Soumission finale du test
  submitTest() {
-  if (this.testForm.invalid) return;
+  if (this.testForm.invalid){
+    alert("The test form is invalid. All fields are required.");
+    return
+  } 
 
   const v = this.testForm.value;
   const testId = `test_${Date.now()}`;
@@ -285,11 +288,11 @@ private updateStepControls(group: FormGroup, numSteps: number) {
   // 2) Si multi_step_problem sélectionné, regrouper les steps
   if (finalConfigs.multi_step_problem) {
     const config = finalConfigs.multi_step_problem as any;
-    const steps: Record<number, { quest: string; answer: any }> = {};
+    const steps: Record<number, { question: string; answer: any }> = {};
     let i = 1;
     while (config[`step${i}_question`] !== undefined && config[`step${i}_answer`] !== undefined) {
       steps[i - 1] = {
-        quest: config[`step${i}_question`],
+        question: config[`step${i}_question`],
         answer: config[`step${i}_answer`]
       };
       delete config[`step${i}_question`];
@@ -369,9 +372,30 @@ private loadQuickTemplate() {
   this.buildStepsFromTemplate(group, tpl);
 }
 
+readonly labelMap: Record<string, string> = {
+  max_number: 'Maximum number',
+  min_number: 'Minimum number',
+  with_borrowing: 'Allow borrowing',
+  num_questions: 'Number of questions',
+  min_required_answers: 'Minimum required answers',
+  prompt_text: 'Prompt text'
+};
 
+getLabel(key: string): string {
+  // Direct match from the labelMap
+  if (this.labelMap[key]) return this.labelMap[key];
 
+  // Handle dynamic keys like step1_question, step2_answer
+  const stepMatch = key.match(/^step(\d+)_(question|answer)$/);
+  if (stepMatch) {
+    const stepNum = stepMatch[1];
+    const type = stepMatch[2] === 'question' ? 'Question' : 'Answer';
+    return `${type} ${stepNum}`;
+  }
 
+  // Default fallback: convert snake_case to Title Case
+  return key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+}
 
 }
 

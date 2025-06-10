@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Database } from '@angular/fire/database';
-import { onValue, ref, update } from 'firebase/database';
+import { onValue, ref, remove, update } from 'firebase/database';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -68,5 +68,20 @@ export class TestListComponent implements OnInit {
       console.error('Failed to update draft status:', error);
     });
 }
+async deleteTest(test: any) {
+    if (!confirm(`Are you sure you want to delete "${test.testName}"?`)) {
+      return;
+    }
+    try {
+      const testRef = ref(this.db, `tests/${test.id}`);
+      await remove(testRef);
+      // Remove from local arrays
+      this.allTests = this.allTests.filter(t => t.id !== test.id);
+      this.applyFilter();
+      alert(`Deleted test ${test.testName}`);
+    } catch (err) {
+      console.error('Error deleting test:', err);
+    }
+  }
 
 }

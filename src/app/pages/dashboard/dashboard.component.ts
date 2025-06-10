@@ -11,13 +11,14 @@ import { TestListComponent } from '../test-list/test-list.component';
 import { CreateParentComponent } from '../create-parent/create-parent.component';
 import { ParentStudentsComponent } from '../parent-students/parent-students.component';
 import { StudentPerformanceComponent } from '../student-performance/student-performance.component';
+import { StudentsRankingComponent } from '../students-ranking/students-ranking.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [NgIf, NavBarComponent, SidebarComponent, 
-    RoleManagementComponent, StudentRegistrationComponent, 
-    StudentListComponent, TestCreationComponent, 
-    TestListComponent, CreateParentComponent, ParentStudentsComponent, StudentPerformanceComponent],
+  imports: [NgIf, NavBarComponent, SidebarComponent,
+    RoleManagementComponent, StudentRegistrationComponent,
+    StudentListComponent, TestCreationComponent,
+    TestListComponent, CreateParentComponent, ParentStudentsComponent, StudentPerformanceComponent, StudentsRankingComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })

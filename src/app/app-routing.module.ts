@@ -5,6 +5,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { EditTestComponent } from './pages/edit-test/edit-test.component';
 import { StudentPerformanceComponent } from './pages/student-performance/student-performance.component';
+import { StudentsRankingComponent } from './pages/students-ranking/students-ranking.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'register', pathMatch: 'full' },
@@ -13,6 +14,7 @@ export const routes: Routes = [
   { path: 'login', loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent) },
   { path: 'pending-approval', loadComponent: () => import('./pages/pending-approval/pending-approval.component').then(m => m.PendingApprovalComponent) },
   { path: 'edit-test/:id', component: EditTestComponent },
+  { path: 'students-ranking', component: StudentsRankingComponent },
   { path: 'student-performance', component: StudentPerformanceComponent },
 
   { path: '**', redirectTo: 'register' }

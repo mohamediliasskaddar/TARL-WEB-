@@ -1,0 +1,363 @@
+/* Students Ranking Page Styles */
+
+/* Main container */
+.ranking {
+  max-width: 1300px;
+  margin: 2rem auto;
+  padding: 2rem;
+  /* background: linear-gradient(145deg, #ffffff, #f5f5f5); */
+  border-radius: 12px;
+  /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); */
+  /* border: 1px solid rgba(0, 0, 0, 0.05); */
+}
+
+/* Title styling (matching your previous pages) */
+h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #121212;
+  position: relative;
+}
+
+h2::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(to right, #333333, #888888);
+  margin: 0.5rem auto 0;
+  border-radius: 3px;
+}
+
+/* Game selector section */
+.students-ranking > label {
+  display: block;
+  color: #333333;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+}
+
+/* Select dropdown styling */
+select {
+  width: 100%;
+  max-width: 300px;
+  padding: 0.75rem 1rem;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: #121212;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 2rem;
+}
+
+select:focus {
+  outline: none;
+  border-color: #333333;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+select:hover {
+  border-color: #555555;
+}
+
+select option {
+  padding: 0.5rem;
+  background-color: #ffffff;
+  color: #121212;
+}
+
+/* Table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Table header */
+thead {
+  background: linear-gradient(to right, #333333, #555555);
+}
+
+th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #ffffff;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+}
+
+th:first-child {
+  text-align: center;
+  width: 80px;
+}
+
+th:last-child {
+  text-align: center;
+  width: 100px;
+}
+
+/* Table body */
+tbody tr {
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+tbody tr:hover {
+  background-color: #f9f9f9;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+td {
+  padding: 1rem;
+  color: #333333;
+  font-size: 0.95rem;
+}
+
+/* Rank column styling */
+td:first-child {
+  text-align: center;
+  font-weight: 600;
+  color: #121212;
+  font-size: 1.1rem;
+}
+
+/* Points column styling */
+td:last-child {
+  text-align: center;
+  font-weight: 600;
+  color: #121212;
+}
+
+/* Special styling for top 3 ranks */
+tbody tr:nth-child(1) td:first-child {
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  color: #000000;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  font-weight: 700;
+  box-shadow: 0 2px 4px rgba(255, 215, 0, 0.3);
+}
+
+tbody tr:nth-child(2) td:first-child {
+  background: linear-gradient(135deg, #c0c0c0, #e8e8e8);
+  color: #000000;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  font-weight: 700;
+  box-shadow: 0 2px 4px rgba(192, 192, 192, 0.3);
+}
+
+tbody tr:nth-child(3) td:first-child {
+  background: linear-gradient(135deg, #cd7f32, #daa520);
+  color: #ffffff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  font-weight: 700;
+  box-shadow: 0 2px 4px rgba(205, 127, 50, 0.3);
+}
+
+/* Highlight top 3 rows */
+tbody tr:nth-child(1) {
+  background-color: rgba(255, 215, 0, 0.05);
+}
+
+tbody tr:nth-child(2) {
+  background-color: rgba(192, 192, 192, 0.05);
+}
+
+tbody tr:nth-child(3) {
+  background-color: rgba(205, 127, 50, 0.05);
+}
+
+/* Student name styling */
+td:nth-child(2) {
+  font-weight: 500;
+  color: #121212;
+}
+
+/* Tests played styling */
+td:nth-child(3) {
+  color: #555555;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #888888;
+  font-style: italic;
+  font-size: 1.1rem;
+}
+
+/* Loading state */
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #666666;
+}
+
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .students-ranking {
+    margin: 1rem;
+    padding: 1rem;
+  }
+  
+  table {
+    font-size: 0.9rem;
+    max-width: 800px;
+  }
+  
+  th, td {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  select {
+    max-width: 100%;
+  }
+  
+  /* Stack table on very small screens */
+  @media (max-width: 480px) {
+    table, thead, tbody, th, td, tr {
+      display: block;
+    }
+    
+    thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+    
+    tr {
+      border: 1px solid #e0e0e0;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+      padding: 1rem;
+      background-color: #ffffff;
+    }
+    
+    td {
+      border: none;
+      position: relative;
+      padding: 0.5rem 0;
+      padding-left: 50%;
+      text-align: left;
+    }
+    
+    td:before {
+      content: attr(data-label) ": ";
+      position: absolute;
+      left: 0;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap;
+      font-weight: 600;
+      color: #333333;
+    }
+    
+    td:first-child:before {
+      content: "Rank: ";
+    }
+    
+    td:nth-child(2):before {
+      content: "Student: ";
+    }
+    
+    td:nth-child(3):before {
+      content: "Tests: ";
+    }
+    
+    td:nth-child(4):before {
+      content: "Points: ";
+    }
+  }
+}
+
+/* Print styles */
+@media print {
+  .students-ranking {
+    box-shadow: none;
+    border: 1px solid #000000;
+  }
+  
+  table {
+    box-shadow: none;
+  }
+  
+  tbody tr:hover {
+    background-color: transparent;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* Animation for table rows */
+tbody tr {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Focus states for accessibility */
+select:focus {
+  outline: 2px solid #333333;
+  outline-offset: 2px;
+}
+
+table:focus-within {
+  outline: 2px solid #333333;
+  outline-offset: 2px;
+}
+td{
+    text-align: center;
+}
+th{
+    text-align: center;
+}
+/* td:nth-child(2) {
+  text-align: start;
+} */

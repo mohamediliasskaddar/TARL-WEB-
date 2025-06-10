@@ -29,7 +29,7 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registerForm.invalid){
-    alert("registration form is invalid, review your info ");
+    alert("The registration form is invalid. All fields are required. Please review your information.");
     return;} 
 
     this.loading = true;
@@ -40,7 +40,10 @@ export class RegisterComponent {
         try {
           await user.reload();
           await sendEmailVerification(user);
-          alert('Registration successful. Please check your email to verify your account.');
+          // alert('Registration successful. Please check your email to verify your account.');
+          alert(
+          `Registration successful. Please check your email (${email}) to verify your account.`
+        );
           setTimeout(() => {
             this.router.navigate(['/login']);
           });          

@@ -118,7 +118,8 @@
         <!-- General config keys -->
         <div *ngFor="let controlKey of getControlKeys(gameId)">
           <ng-container *ngIf="controlKey !== 'steps'">
-          <label>{{ controlKey }}</label>
+          <!-- <label>{{ controlKey }}</label> -->
+           <label>{{ getLabel(controlKey) }}</label>
           <input type="text" [formControlName]="controlKey" />
           </ng-container>
         </div>
@@ -138,8 +139,6 @@
                 </div>
               </div>
             </ng-container>
-
-        <!-- ──────────────────────────────── -->
 
       </div>
     </div>

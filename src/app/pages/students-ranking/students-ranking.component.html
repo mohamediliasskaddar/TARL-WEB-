@@ -1,0 +1,34 @@
+
+<div class="ranking">
+
+  <h2>Students Ranking</h2>
+  <!-- 1) Game selector -->
+  <label for="gameSelect">Show ranking for :  </label>
+  <select id="gameSelect" [(ngModel)]="selectedGameID" (change)="rebuildRanking()">
+    <option value="all">All Mini-Games</option>
+    <option *ngFor="let g of gameIDs" [value]="g">
+      {{ g.replace('_',' ') | titlecase }}
+    </option>
+  </select>
+
+  <!-- 2) Ranking Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Student</th>
+        <th>Points</th>
+        <th>Tests Played</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of ranking; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ row.name }}</td>
+        <td>{{ row.points }}</td>
+        <td>{{ row.testsPlayed }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

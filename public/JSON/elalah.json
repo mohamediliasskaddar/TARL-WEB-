@@ -41,7 +41,7 @@
     "multi_step_problem": {
   "id": "multi_step_problem",
   "title": {
-  "en": "Solve a Multi-Step Word Problem"
+  "en": "Multi-Step Word Problem"
   },
   "description": {
   "en": "Solve multi-step problems with multiple operations" },
@@ -69,7 +69,7 @@
       "quick_multi_step_problem": {
       "id": "quick_multi_step_problem",
       "title": {
-      "en": "Solve a  Multi-Step Word Problem"
+      "en": "Prepared Multi-Step Word Problem"
       },
       "description": {
       "en": "Solve multi-step problems with multiple operations" },
@@ -99,26 +99,27 @@
                             }
                         },
                   "m_2":{
-                            "prompt_text": "Ali had 120 marbles. He gave 20 to his brother, lost 15 on his way, and used 10 in a game.",
-                            "num_questions": 3,
-                            "max_number": 200,
-                            "min_number": 100,
-                            "min_required_answers": 1,
-                            "steps": {
-                                "0": {
-                                    "question": "How many marbles does Ali have after giving 20 to his brother?",
-                                    "answer": "100"
-                                },
-                                "1": {
-                                    "question": "How many marbles does Ali have after losing 15 more?",
-                                    "answer": "85"
-                                },
-                                "2": {
-                                    "question": "How many marbles does Ali have after using 10 in a game?",
-                                    "answer": "75"
-                                }
+                        "prompt_text": "Sara had 150 stickers. She gave 30 to her friend, used 20 to decorate her notebook, and lost 10 on the way home.",
+                        "num_questions": 3,
+                        "max_number": 200,
+                        "min_number": 100,
+                        "min_required_answers": 1,
+                        "steps": {
+                            "0": {
+                                    "question": "How many stickers does Sara have after giving 30 to her friend?",
+                                    "answer": "120"
+                            },
+                            "1": {
+                                "question": "How many stickers does Sara have after using 20 to decorate her notebook?",
+                                "answer": "100"
+                            },
+                            "2": {
+                                "question": "How many stickers does Sara have after losing 10 on the way home?",
+                                "answer": "90"
                             }
-                        },
+                        }
+                        }
+                        ,
                   "m_3":{
                             "prompt_text": "Maya had 150 stickers. She gave 30 to her sister and 20 to her friend.",
                             "num_questions": 2,
