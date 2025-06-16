@@ -19,7 +19,7 @@ The app is still under ongoing development.
 ![pages / components](images/pages.png)
 
 - **some views**
-![ui](images/ui.png)
+![ui](images/ui v2.png)
 
 
 ## 📦 Tech Stack
