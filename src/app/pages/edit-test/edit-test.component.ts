@@ -111,6 +111,7 @@ returnDash() {
       ...updatedTest,
       miniGameConfigs: updatedTest.miniGameConfigs,
     }).then(() => {
+      alert('Test updated!');
       console.log('Test updated!');
     }).catch(error => {
       console.error('Error updating test:', error);

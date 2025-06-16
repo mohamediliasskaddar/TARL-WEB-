@@ -85,7 +85,7 @@ export class TestCreationComponent implements OnInit {
     });
 
     // --- 2) Charge les mini-jeux depuis un fichier JSON et configure la logique de filtrage dynamique selon le grade ---
-    this.http.get('JSON/elalah.json').subscribe((data: any) => {
+    this.http.get('JSON/soustraction-mini-games.json').subscribe((data: any) => {
       this.gameDefs = data.miniGames;
       // addeeed
         const quickDefs = data.miniGames.quick_multi_step_problem.defaultConfig.gradeConfig;

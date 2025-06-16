@@ -3,11 +3,9 @@
     "find_compositions": {
       "id": "find_compositions",
       "title": {
-        
         "en": "Find Compositions"
       },
       "description": {
-        
         "en": "Find all possible compositions for the target result"
       },
       "version": "1.0",
@@ -24,11 +22,10 @@
     "vertical_operations": {
       "id": "vertical_operations",
       "title": {
-        
-        "en": "Vertical Operations"
+      "en": "Vertical Operations"
       },
       "description": {
-        "en": "Solve vertical operations"
+      "en": "Solve vertical operations"
       },
       "version": "1.0",
       "suggestedGradeRange": { "min": 3, "max": 6 },
@@ -44,51 +41,43 @@
     "multi_step_problem": {
   "id": "multi_step_problem",
   "title": {
-    
-    "en": "Solve a Multi-Step Word Problem"
+  "en": "Multi-Step Word Problem"
   },
   "description": {
-    
-    "en": "Solve multi-step problems with multiple operations"
-  },
+  "en": "Solve multi-step problems with multiple operations" },
   "version": "1.0",
   "suggestedGradeRange": { "min": 5, "max": 6 },
   "defaultConfig": {
     "gradeConfig": {
-              "5": {
+              "5":{
             "prompt_text": "",
             "num_questions": 2,
             "max_number": 200,
             "min_number": 100,
-            "min_required_answers": 1
+            "min_required_answers": 1   
           },
-          "6": {
+              "6": {
             "prompt_text": "",
             "num_questions": 2,
             "max_number": 300,
             "min_number": 150,
             "min_required_answers": 1
           }
-    }
-  }
- },
-   "multi_step_problem_Quick": {
-  "id": "multi_step_problem_Quick",
-  "title": {
-    
-    "en": "Quick Multi-Step Word Problem"
-  },
-  "description": {
-    
-    "en": "Solve multi-step problems with multiple operations"
-  },
-  "version": "1.0",
-  "suggestedGradeRange": { "min": 5, "max": 6 },
-  "defaultConfig": {
-    "gradeConfig": {
-                    "5": [
-                        {
-                            "id": "G5-1",
+          }
+        }
+      },
+      "quick_multi_step_problem": {
+      "id": "quick_multi_step_problem",
+      "title": {
+      "en": "Prepared Multi-Step Word Problem"
+      },
+      "description": {
+      "en": "Solve multi-step problems with multiple operations" },
+      "version": "1.0",
+      "suggestedGradeRange": { "min": 5, "max": 6 },
+      "defaultConfig": {
+        "gradeConfig": {
+                  "m_1":{
                             "prompt_text": "Ali had 120 marbles. He gave 20 to his brother, lost 15 on his way, and used 10 in a game.",
                             "num_questions": 3,
                             "max_number": 200,
@@ -109,8 +98,29 @@
                                 }
                             }
                         },
-                        {
-                            "id": "G5-2",
+                  "m_2":{
+                        "prompt_text": "Sara had 150 stickers. She gave 30 to her friend, used 20 to decorate her notebook, and lost 10 on the way home.",
+                        "num_questions": 3,
+                        "max_number": 200,
+                        "min_number": 100,
+                        "min_required_answers": 1,
+                        "steps": {
+                            "0": {
+                                    "question": "How many stickers does Sara have after giving 30 to her friend?",
+                                    "answer": "120"
+                            },
+                            "1": {
+                                "question": "How many stickers does Sara have after using 20 to decorate her notebook?",
+                                "answer": "100"
+                            },
+                            "2": {
+                                "question": "How many stickers does Sara have after losing 10 on the way home?",
+                                "answer": "90"
+                            }
+                        }
+                        }
+                        ,
+                  "m_3":{
                             "prompt_text": "Maya had 150 stickers. She gave 30 to her sister and 20 to her friend.",
                             "num_questions": 2,
                             "max_number": 200,
@@ -127,8 +137,7 @@
                                 }
                             }
                         },
-                        {
-                            "id": "G5-3",
+                  "m_4":{
                             "prompt_text": "Omar had 200 dirhams. He spent 50 on books, 30 on a backpack, and 20 on lunch.",
                             "num_questions": 3,
                             "max_number": 200,
@@ -148,9 +157,196 @@
                                     "answer": "100"
                                 }
                             }
+                        },
+                  "m_5": {
+                            "prompt_text": "Salma had 100 pencils. She gave 25 to her classmates and lost 10.",
+                            "num_questions": 2,
+                            "max_number": 200,
+                            "min_number": 100,
+                            "min_required_answers": 1,
+                            "steps": {
+                                "0": {
+                                    "question": "How many pencils does Salma have after giving 25 to her classmates?",
+                                    "answer": "75"
+                                },
+                                "1": {
+                                    "question": "How many pencils does Salma have after losing 10?",
+                                    "answer": "65"
+                                }
+                            }
+                        },
+                  "m_6":{
+                            "prompt_text": "Khalid had 180 points in a game. He lost 40 in the first round and 30 in the second.",
+                            "num_questions": 2,
+                            "max_number": 200,
+                            "min_number": 100,
+                            "min_required_answers": 1,
+                            "steps": {
+                                "0": {
+                                    "question": "How many points does Khalid have after the first round?",
+                                    "answer": "140"
+                                },
+                                "1": {
+                                    "question": "How many points does Khalid have after the second round?",
+                                    "answer": "110"
+                                }
+                            }
+                        },
+                  "m_7":{
+                            "prompt_text": "Nadia had 160 dirhams. She spent 50 at the bookstore, then 40 at the caf\u00e9.",
+                            "num_questions": 2,
+                            "max_number": 200,
+                            "min_number": 100,
+                            "min_required_answers": 1,
+                            "steps": {
+                                "0": {
+                                    "question": "How much does Nadia have after the bookstore?",
+                                    "answer": "110"
+                                },
+                                "1": {
+                                    "question": "How much does Nadia have after the caf\u00e9?",
+                                    "answer": "70"
+                                }
+                            }
+                        },
+                  "m_8": {
+                            "prompt_text": "Ali had 120 marbles. He gave 20 to his brother, lost 15 on his way, and used 10 in a game.",
+                            "num_questions": 3,
+                            "max_number": 200,
+                            "min_number": 100,
+                            "min_required_answers": 1,
+                            "steps": {
+                                "0": {
+                                    "question": "How many marbles does Ali have after giving 20 to his brother?",
+                                    "answer": "100"
+                                },
+                                "1": {
+                                    "question": "How many marbles does Ali have after losing 15 more?",
+                                    "answer": "85"
+                                },
+                                "2": {
+                                    "question": "How many marbles does Ali have after using 10 in a game?",
+                                    "answer": "75"
+                                }
+                            }
+                        },
+                        "m_9":{
+                            "prompt_text": "Lina had 200 pages to read. She read 60 pages on Monday and 50 on Tuesday.",
+                            "num_questions": 2,
+                            "max_number": 200,
+                            "min_number": 100,
+                            "min_required_answers": 1,
+                            "steps": {
+                                "0": {
+                                    "question": "How many pages does Lina have left after Monday?",
+                                    "answer": "140"
+                                },
+                                "1": {
+                                    "question": "How many pages does Lina have left after Tuesday?",
+                                    "answer": "90"
+                                }
+                            }
+                        },
+                        "m_10":{
+                            "prompt_text": "Sara had 160 beads. She used 40 for a bracelet, 30 for a necklace, and 10 fell and were lost.",
+                            "num_questions": 3,
+                            "max_number": 200,
+                            "min_number": 100,
+                            "min_required_answers": 1,
+                            "steps": {
+                                "0": {
+                                    "question": "How many beads are left after using 40 for a bracelet?",
+                                    "answer": "120"
+                                },
+                                "1": {
+                                    "question": "How many beads are left after using 30 for a necklace?",
+                                    "answer": "90"
+                                },
+                                "2": {
+                                    "question": "How many beads are left after losing 10 beads?",
+                                    "answer": "80"
+                                }
+                            }
+                        },
+                        "m_11":{
+                            "prompt_text": "Iliass had 200 coins. He spent 40 on candy, 30 on a toy, gave 20 to a friend, and lost 10 on the street.",
+                            "num_questions": 4,
+                            "max_number": 200,
+                            "min_number": 100,
+                            "min_required_answers": 1,
+                            "steps": {
+                                "0": {
+                                    "question": "How many coins are left after buying candy?",
+                                    "answer": "160"
+                                },
+                                "1": {
+                                    "question": "How many coins are left after buying the toy?",
+                                    "answer": "130"
+                                },
+                                "2": {
+                                    "question": "How many coins are left after giving 20 to a friend?",
+                                    "answer": "110"
+                                },
+                                "3": {
+                                    "question": "How many coins are left after losing 10 on the street?",
+                                    "answer": "100"
+                                }
+                            }
+                        },
+                        "m_12":{
+                            "prompt_text": "Yasmine had 190 pens. She gave 40 to her classmates, 30 to her teacher, used 10 herself, and dropped 10 on the ground.",
+                            "num_questions": 4,
+                            "max_number": 200,
+                            "min_number": 100,
+                            "min_required_answers": 1,
+                            "steps": {
+                                "0": {
+                                    "question": "How many pens are left after giving 40 to classmates?",
+                                    "answer": "150"
+                                },
+                                "1": {
+                                    "question": "How many pens are left after giving 30 to her teacher?",
+                                    "answer": "120"
+                                },
+                                "2": {
+                                    "question": "How many pens are left after using 10 herself?",
+                                    "answer": "110"
+                                },
+                                "3": {
+                                    "question": "How many pens are left after dropping 10 on the ground?",
+                                    "answer": "100"
+                                }
+                            }
+                        },
+                        "m_13":{
+                            "prompt_text": "Rania had 170 apples. She sold 50 at the market, 40 to a neighbor, gave 10 to her cousin, and threw away 10 that were bad.",
+                            "num_questions": 4,
+                            "max_number": 200,
+                            "min_number": 100,
+                            "min_required_answers": 1,
+                            "steps": {
+                                "0": {
+                                    "question": "How many apples are left after selling 50 at the market?",
+                                    "answer": "120"
+                                },
+                                "1": {
+                                    "question": "How many apples are left after selling 40 to a neighbor?",
+                                    "answer": "80"
+                                },
+                                "2": {
+                                    "question": "How many apples are left after giving 10 to her cousin?",
+                                    "answer": "70"
+                                },
+                                "3": {
+                                    "question": "How many apples are left after throwing away 10 bad ones?",
+                                    "answer": "60"
+                                }
+                            }
                         }
-                      ]
+              }
+            }
+          }
+
+    }
   }
- }
-  }}
-}
+           

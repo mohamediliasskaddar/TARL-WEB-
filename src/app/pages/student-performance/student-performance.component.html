@@ -19,7 +19,7 @@
     <select id="testSelect" (change)="onTestChange($any($event.target).value)">
       <option value="" disabled selected>-- Choose a test --</option>
       <option *ngFor="let t of tests" [value]="t.testID">
-        {{ t.testID }} 
+        {{ t.title }} 
         <!-- CASTING TO TITLE  -->
       </option>
     </select>
